@@ -20,6 +20,8 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     background: ${({ theme }) => theme.bg};
     color: ${({ theme }) => theme.fg};
+    min-height: 100vh; 
+    position: relative;
   }
   a {
     text-decoration: none;
