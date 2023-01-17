@@ -17,13 +17,3 @@ export default store;
 
 
 
-//  una funcion que reciba argumentos dinamicos
-
-//  una funcion que reciba argumentos dinamicos
-
-function multiArgs(...args) {
-    console.log(args);
-}
-
-
-multiArgs(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);

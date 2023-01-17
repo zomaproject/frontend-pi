@@ -32,7 +32,7 @@ const GlobalStyles = createGlobalStyle`
     display: block;
   }
  .container {
-    max-width: 120rem;
+    max-width: 150rem;
     margin: 0 auto;
  }
  h1,h3,h4,h5,h6 {
@@ -47,5 +47,8 @@ const GlobalStyles = createGlobalStyle`
  h3{
     font-size: 1.5rem;
  }
+
+
+
 `
 export default GlobalStyles

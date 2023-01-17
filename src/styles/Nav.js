@@ -22,7 +22,8 @@ export const Nav = styled.nav`
   & a:hover {
     color: ${({ theme }) => theme.hoverEnlace};
   }
-  .activo {
+
+.activo {
     color: ${({ theme }) => theme.hoverEnlace};
     /* border-bottom: 0.2rem solid ${({ theme }) => theme.hoverEnlace}; */
   }

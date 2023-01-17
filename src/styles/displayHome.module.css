@@ -1,0 +1,14 @@
+.layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* gap: 1rem */
+}
+
+aside {
+  border: 1px solid salmon;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+

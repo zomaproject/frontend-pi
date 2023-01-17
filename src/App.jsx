@@ -1,19 +1,21 @@
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './Layout/Layout'
 import GlobalStyles from './styles/GlobalStyles'
 import { ThemeProvider } from 'styled-components'
 import theme from './styles/theme'
-import { useState, useEffect } from 'react'
 import ErorPage from './components/ErorPage'
 import Home from './pages/Home'
 import { useDispatch } from 'react-redux'
 import { dowloadData } from './redux/actions/recipesActions'
 import { loading } from './redux/actions/loadingAction'
+import Details from './pages/Details'
 
 function App() {
   const [temaActual, setTemaActual] = useState(
     localStorage.getItem('tema') || 'dark'
   )
+
   const dispatch = useDispatch()
   const handleTema = () => {
     if (temaActual === 'dark') return setTemaActual('light')
@@ -34,10 +36,11 @@ function App() {
         <Routes>
           <Route
             path='/'
-            element={<Layout handleTema={handleTema} />}
+            element={<Layout handleTema={handleTema}  temaActual ={temaActual} />}
             errorElement={<ErorPage />}
           >
             <Route path='/home' element={<Home />} />
+            <Route path='/recipe/:id' element={<Details />} />
             <Route path='*' element={<ErorPage />} />
           </Route>
         </Routes>

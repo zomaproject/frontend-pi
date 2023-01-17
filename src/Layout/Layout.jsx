@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
+import ThemeIcon from '../components/themeIcon'
 import { Footer } from '../styles/footer'
 import { Nav, NavBg } from '../styles/Nav'
 
-export default function Layout({ handleTema }) {
+export default function Layout({ handleTema, temaActual }) {
   return (
     <div>
       <header>
@@ -29,17 +30,17 @@ export default function Layout({ handleTema }) {
                 Contacto
               </NavLink>
             </nav>
-            <button onClick={handleTema}>Cambiar tema</button>
+            <button onClick={handleTema}>
+              <ThemeIcon theme={temaActual} />
+            </button>
           </Nav>
         </NavBg>
       </header>
-      <main className='container'>
-        <Outlet />
-      </main>
+      <Outlet />
       <Footer>
         <div className='container'>
-         <NavLink to={'#'} className={'fa fa-github'}></NavLink> 
-         <NavLink to={'#'} className={'fa fa-linkedin'}></NavLink> 
+          <NavLink to={'#'} className={'fa fa-github'}></NavLink>
+          <NavLink to={'#'} className={'fa fa-linkedin'}></NavLink>
         </div>
       </Footer>
     </div>
