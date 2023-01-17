@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 export const Card = styled(Link)`
+  /* retirar estilos cuando es visitado */
+  color: ${({ theme }) => theme.fg};
+  text-decoration: none;
+  &:visited {
+    color: ${({ theme }) => theme.fg};
+  }
   img {
     max-width: 100%;
     border-radius: 5px 5px 0 0;

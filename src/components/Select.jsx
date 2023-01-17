@@ -8,7 +8,8 @@ export function Select({ multiple, value, onChange, options }) {
   const containerRef = useRef(null)
 
   function clearOptions() {
-    multiple ? onChange([]) : onChange(undefined)
+    multiple ? onChange([]) : onChange({ label: '', value: ''})
+    
   }
 
   function selectOption(option) {

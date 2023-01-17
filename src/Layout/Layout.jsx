@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
-import ThemeIcon from '../components/themeIcon'
+import ThemeIcon from '../components/TemeIcon'
+
 import { Footer } from '../styles/footer'
 import { Nav, NavBg } from '../styles/Nav'
 

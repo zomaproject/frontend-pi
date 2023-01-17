@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import detailReducer from './detailReducer';
 import loadingReducer from './loadingReducer';
+import orderReducer from './orderReducer';
 import paginationReducer from './paginationReducer';
 import recipesReducer from './recipesReducer';
 import searchReducer from './searchReducer';
@@ -11,6 +12,7 @@ export default combineReducers({
     loading: loadingReducer,
     search: searchReducer,
     typesDiets: typesDietsReducer,
+    pagination: paginationReducer ,
     details: detailReducer,
-    pagination: paginationReducer
+    orden: orderReducer
 });
