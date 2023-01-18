@@ -30,3 +30,8 @@ export const SET_ORDEN = 'SET_ORDEN';
 export const ON_OFF = 'ON_OFF';
 
 
+// filter
+
+export const SET_DIETS = 'SET_DIETS';
+
+export const  FILTER_DIETS = 'FILTER_DIETS';

@@ -9,12 +9,13 @@ export default function Pagination() {
 
   const arrayPages = [...Array(numberPages).keys()].map((i) => i + 1)
 
-  const [activo, setActivo] = useState(   +localStorage.getItem('page')  || 1)
+  // const [activo, setActivo] = useState(   +localStorage.getItem('page')  || 1)
+  const pageActive  = useSelector((state) => state.pagination.pageCurrent)
   const dispatch = useDispatch()
 
   const handleClick = (e) => {
     e.preventDefault()
-    setActivo(+e.target.value)
+    // setActivo(+e.target.value)
     dispatch(setPage(+e.target.value))
     localStorage.setItem('page', +e.target.value)
   }
@@ -30,7 +31,7 @@ export default function Pagination() {
         <button
           onClick={handleClick}
           value={page}
-          className={activo === page ? 'activo' : ''}
+          className={pageActive === page ? 'activo' : ''}
           key={page}
         >
           {page}

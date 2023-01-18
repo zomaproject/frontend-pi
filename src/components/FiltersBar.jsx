@@ -6,7 +6,7 @@ import { loadOrder,  setOrdenState } from '../redux/actions/OrderAction'
 import { searchRecipeAction } from '../redux/actions/searchAction'
 import { Select } from './Select'
 
-export default function FiltersBar({orden, setOrden, optionsOrden}) {
+export default function FiltersBar({orden, setOrden, optionsOrden, diets, setDiets, optionsDiets}) {
   const [search, setSearch] = useState('')
   const dispatch = useDispatch()
   const handleChange = (e) => {
@@ -18,17 +18,6 @@ export default function FiltersBar({orden, setOrden, optionsOrden}) {
     dispatch(searchRecipeAction(search))
   }
 
-  const typesDiets = useSelector((state) => state.typesDiets.diets)
-  const options = typesDiets.map((diet) => ({
-    label: diet.name,
-    value: diet.name
-  }))
-
-  useEffect(() => {
-    dispatch(loadDiets())
-  }, [])
-
-  const [value, setValue] = useState([])
   return (
     <>
       <aside>
@@ -44,9 +33,9 @@ export default function FiltersBar({orden, setOrden, optionsOrden}) {
         </div>
         <Select
           multiple
-          onChange={(o) => setValue(o)}
-          options={options}
-          value={value}
+          onChange={(o) => setDiets(o)}
+          options={optionsDiets}
+          value={diets}
         />
         <Select
           onChange={(o) => {setOrden(o)
