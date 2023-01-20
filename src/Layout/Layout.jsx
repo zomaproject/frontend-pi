@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
-import ThemeIcon from '../components/TemeIcon'
+import ThemeIcon from '../components/ThemeIcon'
 
 import { Footer } from '../styles/footer'
 import { Nav, NavBg } from '../styles/Nav'
@@ -30,20 +30,26 @@ export default function Layout({ handleTema, temaActual }) {
               >
                 Contacto
               </NavLink>
+              <NavLink  
+                to={'/create-recipe'}
+                className={({ isActive }) => (isActive ? 'activo' : '')} >
+                 CookBook 
+                </NavLink>
             </nav>
             <button onClick={handleTema}>
-              <ThemeIcon theme={temaActual} />
+              {/* <ThemeIcon theme={temaActual} /> */}
+              dark
             </button>
           </Nav>
         </NavBg>
       </header>
       <Outlet />
-      <Footer>
+      {/* <Footer>
         <div className='container'>
-          <NavLink to={'#'} className={'fa fa-github'}></NavLink>
-          <NavLink to={'#'} className={'fa fa-linkedin'}></NavLink>
+          <NavLink to={'#'} className={'fa fa-github'}>{}</NavLink>
+          <NavLink to={'#'} className={'fa fa-linkedin'}>{}</NavLink>
         </div>
-      </Footer>
+      </Footer> */}
     </div>
   )
 }

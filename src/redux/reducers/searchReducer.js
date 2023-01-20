@@ -1,8 +1,8 @@
-import { ALERTA_SEARCH, SEARCH_RECIPE } from '../types'
+import { ALERTA_SEARCH, CLEAR_SEARCH, SEARCH_RECIPE } from '../types'
 
 const initialState = {
   searchRecipe: [],
-  alertSearch: null
+  alertSearch: { error: false, msg: ''} 
 }
 
 export default function (state = initialState, action) {
@@ -15,7 +15,13 @@ export default function (state = initialState, action) {
     case ALERTA_SEARCH:
       return {
         ...state,
-        alertSearch: action.payload
+        alertSearch: { error: true, msg: action.payload} 
+      }
+    case CLEAR_SEARCH:
+      return {
+        ...state,
+        searchRecipe: action.payload,
+        alertSearch: { error: false, msg: ''}
       }
     default:
       return state

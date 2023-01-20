@@ -1,5 +1,5 @@
 import clienteAxios from '../../config/clienteAxios'
-import { SEARCH_RECIPE, ALERTA_SEARCH } from '../types'
+import { SEARCH_RECIPE, ALERTA_SEARCH, CLEAR_SEARCH } from '../types'
 
 const searchRecipe = (recipe_result) => {
   return {
@@ -13,16 +13,23 @@ export const searchRecipeAction = (recipe) => {
       const { data } = await clienteAxios.get(`/recipes?search=${recipe}`)
       dispatch(searchRecipe(data))
     } catch (error) {
-      dispatch(setAlerta(error.response.data.msg))
+      dispatch(setAlertaSearch(error.response.data.msg))
     }
 
   }
 }
 
 
-const  setAlerta = (alerta) => {
+export const  setAlertaSearch = (alerta) => {
   return {
     type: ALERTA_SEARCH,
     payload: alerta
+  }
+}
+
+export const clearSearch = () => {
+  return {
+    type: CLEAR_SEARCH,
+    payload: []
   }
 }

@@ -1,0 +1,51 @@
+label {
+  display: block;
+  margin-bottom: 8px;
+
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.formulario {
+  gap: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* width: 100%; */
+  min-width: 70%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.formulario  input {
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 6px;
+  margin-bottom: 16px;
+} 
+
+.formulario textarea {
+  min-width: 50%;
+  height: 150px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+
+
+
+div:nth-child(5){
+  background: red;
+  min-width: 50%;
+}

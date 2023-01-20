@@ -56,7 +56,7 @@
   list-style: none;
   display: none;
   max-height: 15em;
-  overflow-y: auto;
+  overflow-y: scroll;
   border: .05em solid #777;
   border-radius: .25em;
   width: 100%;

@@ -10,6 +10,8 @@ import { useDispatch } from 'react-redux'
 import { dowloadData } from './redux/actions/recipesActions'
 import { loading } from './redux/actions/loadingAction'
 import Details from './pages/Details'
+import Form from './components/Form'
+import { loadDiets } from './redux/actions/getTypeDietsAction'
 
 function App() {
   const [temaActual, setTemaActual] = useState(
@@ -29,6 +31,10 @@ function App() {
     dispatch(loading(true))
     dispatch(dowloadData()).then(() => dispatch(loading(false)))
   }, [])
+
+	useEffect(() => {
+		dispatch(loadDiets());
+	}, []);
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme[temaActual]}>
@@ -41,6 +47,7 @@ function App() {
           >
             <Route path='/home' element={<Home />} />
             <Route path='/recipe/:id' element={<Details />} />
+            <Route path='/create-recipe' element={<Form/>} />
             <Route path='*' element={<ErorPage />} />
           </Route>
         </Routes>

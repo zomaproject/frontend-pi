@@ -8,7 +8,7 @@ export const Card = styled(Link)`
     color: ${({ theme }) => theme.fg};
   }
   img {
-    max-width: 100%;
+    width: 100%;
     border-radius: 5px 5px 0 0;
   }
   .card {
@@ -16,8 +16,8 @@ export const Card = styled(Link)`
     box-shadow: 0 4px 8px 0 ${({ theme }) => theme.hoverEnlace};
     transition: 0.3s;
     border-radius: 5px;
-    width: 25rem;
-    height: 35rem;
+    width: 30rem;
+    height: 37rem;
   }
   h4{
     margin: 0;
@@ -54,18 +54,24 @@ export const Card = styled(Link)`
     background-color: ${({ theme }) => theme.diets};
     border-radius: 0.3rem;
     padding: 0.01rem 0.2rem;
-    overflow-y: auto;
+    /* overflow-y: auto; */
   }
 `
 
-export const Grid = styled.div`
+export const Grid = styled.main`
   margin-top: 2rem ;
+  /* margin: auto auto; */
   padding: 0.7rem;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 2rem;
+  /* width: 120rem; */
   /* Agregarle escroll para no bajar en la pantalla */
-  height: 73rem; 
-  overflow-y: auto;
+  /* height: 80rem;  */
+  /* width: 100%; */
+  /* overflow-y: auto; */
+  /* border: 1px solid ${({ theme }) => theme.border}; */
+  /* padding-top: 2rem; */
+  /* border-radius: 1rem; */
 `

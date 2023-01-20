@@ -6,7 +6,7 @@ export const LOADING = 'LOADING';
 export const SEARCH_RECIPE = 'SEARCH_RECIPE';
 
 export const  ALERTA_SEARCH = 'ALERTA_SEARCH';
-
+export const CLEAR_SEARCH = 'CLEAR_SEARCH';
 export const GET_DIETS = 'GET_DIETS';
 
 export const GET_DETAILS = 'GET_DETAILS';

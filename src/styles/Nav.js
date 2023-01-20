@@ -2,18 +2,20 @@ import styled from 'styled-components'
 
 export const NavBg = styled.div`
   background: ${({ theme }) => theme.bg2};
-  padding: 1rem;
+  /* padding: 0.9rem; */
+  margin-bottom: 1rem;
 `
 
 export const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   a {
     color: ${({ theme }) => theme.fg};
     font-weight: 700;
     font-size: 2rem;
     margin-right: 5rem;
-    padding: 1rem;
+    padding: 0.5rem;
     transition-property: border-bottom;
   }
   & a:last-of-type {
@@ -27,4 +29,12 @@ export const Nav = styled.nav`
     color: ${({ theme }) => theme.hoverEnlace};
     /* border-bottom: 0.2rem solid ${({ theme }) => theme.hoverEnlace}; */
   }
+
+button {
+    background: ${({ theme }) => theme.bg2};
+    border: 0;
+    color: ${({ theme }) => theme.fg};
+    transition-property: border-bottom;
+    cursor: pointer;
+}
 `
