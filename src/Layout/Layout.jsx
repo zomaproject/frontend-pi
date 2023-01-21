@@ -1,8 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
-import ThemeIcon from '../components/ThemeIcon'
 
-import { Footer } from '../styles/footer'
 import { Nav, NavBg } from '../styles/Nav'
 
 export default function Layout({ handleTema, temaActual }) {

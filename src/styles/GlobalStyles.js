@@ -21,7 +21,7 @@ const GlobalStyles = createGlobalStyle`
     background: ${({ theme }) => theme.bg};
     color: ${({ theme }) => theme.fg};
     min-height: 100vh; 
-    position: relative;
+    /* position: relative; */
   }
   a {
     text-decoration: none;

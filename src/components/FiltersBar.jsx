@@ -4,7 +4,6 @@ import { loading } from "../redux/actions/loadingAction";
 import { loadOrder, setOrdenState } from "../redux/actions/OrderAction";
 import { clearSearch, searchRecipeAction } from "../redux/actions/searchAction";
 import "../styles/Search.module.css";
-import { Select } from "./Select";
 import styles from "../styles/Filter.module.css";
 
 export default function FiltersBar({
@@ -41,12 +40,12 @@ export default function FiltersBar({
 			<div className={styles.flex}>
 				<div>
 					<p>Tipo de Dieta</p>
-					<Select
+					{/* <Select
 						multiple
 						onChange={(o) => setDiets(o)}
 						options={optionsDiets}
 						value={diets}
-					/>
+					/> */}
 				</div>
 
 				<div>
@@ -69,14 +68,14 @@ export default function FiltersBar({
 
 				<div>
 					<p>Tipo de orden</p>
-					<Select
+					{/* <Select
 						onChange={(o) => {
 							setOrden(o);
 							dispatch(setOrdenState(o.value));
 						}}
 						options={optionsOrden}
 						value={orden}
-					/>
+					/> */}
 				</div>
 			</div>
 		</>

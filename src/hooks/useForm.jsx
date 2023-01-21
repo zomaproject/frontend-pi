@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createRecipe } from "../redux/actions/createRecipeActions";
 
-export default function UseForm(INITIAL_STATE, diets) {
+export default function UseForm(INITIAL_STATE,  steps, diets,) {
 	const [values, setValues] = useState(INITIAL_STATE);
 
 	const handleChange = (e) => {
@@ -10,15 +12,15 @@ export default function UseForm(INITIAL_STATE, diets) {
 			[e.target.name]: e.target.value,
 		});
 	};
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(values, diets)
-  }
+	const dispatch = useDispatch();
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		values['steps'] = Object.values(steps) 
+		console.log(values)
+	};
 	return {
 		values,
 		handleChange,
-    handleSubmit
+		handleSubmit,
 	};
 }

@@ -20,7 +20,7 @@ export default function Home() {
 	const dispatch = useDispatch();
 
 	const [orden, setOrden] = useState({});
-	const [diets, setDiets] = useState([]);
+	// const [diets, setDiets] = useState([]);
 
 	const optionsOrden = [
 		{ label: "A-Z (Title)", value: "A-Z" },
@@ -56,24 +56,24 @@ export default function Home() {
 	}, [stateOrder, pageCurrent, recipesOrden]);
 
 
-	useEffect(() => {
-		dispatch(loadFilterDiets(diets, toRender));
-	}, [diets]);
+	// useEffect(() => {
+	// 	dispatch(loadFilterDiets(diets, toRender));
+	// }, [diets]);
 
-	useEffect(() => {
-		if (arrFilters.length > 0) {
-			dispatch(renderPage(recipesFiltered));
-		} else {
-			dispatch(renderPage(toRender));
-		}
-	}, [recipesFiltered, pageCurrent, diets]);
+	// useEffect(() => {
+	// 	if (arrFilters.length > 0) {
+	// 		dispatch(renderPage(recipesFiltered));
+	// 	} else {
+	// 		dispatch(renderPage(toRender));
+	// 	}
+	// }, [recipesFiltered, pageCurrent, diets]);
 	return (
 		<>
 			<div className={'container'}>
 				<FiltersBar
-					diets={diets}
-					setDiets={setDiets}
-					optionsDiets={optionsDiets}
+					// diets={diets}
+					// setDiets={setDiets}
+					// optionsDiets={optionsDiets}
 					orden={orden}
 					setOrden={setOrden}
 					optionsOrden={optionsOrden}

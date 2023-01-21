@@ -12,6 +12,7 @@ import { loading } from './redux/actions/loadingAction'
 import Details from './pages/Details'
 import Form from './components/Form'
 import { loadDiets } from './redux/actions/getTypeDietsAction'
+import MultiSelectDropdown from './pages/About'
 
 function App() {
   const [temaActual, setTemaActual] = useState(
@@ -48,7 +49,8 @@ function App() {
             <Route path='/home' element={<Home />} />
             <Route path='/recipe/:id' element={<Details />} />
             <Route path='/create-recipe' element={<Form/>} />
-            <Route path='*' element={<ErorPage />} />
+            <Route path='/*' element={<ErorPage />} />
+            <Route path='/about' element={<MultiSelectDropdown />} />
           </Route>
         </Routes>
       </ThemeProvider>

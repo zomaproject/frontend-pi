@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import createRecipeReducer from './createRecipeReducer';
 import detailReducer from './detailReducer';
 import filterReducer from './filterReducer';
 import loadingReducer from './loadingReducer';
@@ -16,5 +17,6 @@ export default combineReducers({
     pagination: paginationReducer ,
     details: detailReducer,
     orden: orderReducer,
-    filter: filterReducer
+    filter: filterReducer,
+    createRecipe:   createRecipeReducer 
 });

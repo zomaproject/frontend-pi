@@ -35,3 +35,10 @@ export const ON_OFF = 'ON_OFF';
 export const SET_DIETS = 'SET_DIETS';
 
 export const  FILTER_DIETS = 'FILTER_DIETS';
+
+export const CREATE_RECIPE = 'CREATE_RECIPE';	
+
+export  const CREATE_RECIPE_SUCCESS = 'CREATE_RECIPE_SUCCESS';
+
+export const CREATE_RECIPE_FAILURE = 'CREATE_RECIPE_FAILURE';
+

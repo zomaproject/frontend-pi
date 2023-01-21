@@ -1,114 +1,92 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import UseForm from "../hooks/useForm";
-import FormInput from "./FormInput";
-import { Select } from "./Select";
-import { inputs, textareas } from "../data/inputForm";
+import useDiets from "../hooks/useDiets";
 import styles from "../styles/Form.module.css";
+import useForm from "../hooks/useForm";
+import { useState } from "react";
+export default function Form() {
+	const optionsDiets = useDiets();
 
-const Form = () => {
 	const INITIAL_STATE = {
 		title: "",
-		image: "",
 		healthScore: "",
 		summary: "",
-		analyzedInstructions: "",
+		steps: [],
+		diets: [],
 	};
 
-	const typesOfDiets = useSelector((state) => state.typesDiets.diets);
-	const optionsDiets = typesOfDiets.map((diet) => ({
-		label: diet.name,
-		value: diet.name,
-	}));
-
-	const [diets, setDiets] = useState([]);
-
-	const { handleChange, values, handleSubmit } = UseForm(INITIAL_STATE, diets);
-
-	const validate = (values) => {
-		let errors = {};
-		if (!values.title) {
-			errors.title = "Required";
-		} else if (values.title.length < 3) {
-			errors.title = "Must be 3 characters or more";
-		}
-		if (!values.healthScore) {
-			errors.healthScore = "Required";
-		} else if (values.healthScore < 0 || values.healthScore > 100) {
-			errors.healthScore = "Must be between 0 and 100";
-		}
-		if (!values.summary) {
-			errors.summary = "Required";
-		} else if (values.summary.length < 10) {
-			errors.summary = "Must be 10 characters or more";
-		}
-		if (!values.analyzedInstructions) {
-			errors.analyzedInstructions = "Required";
-		} else if (values.analyzedInstructions.length < 10) {
-			errors.analyzedInstructions = "Must be 10 characters or more";
-		}
-		return errors;
+	const [id, setId] = useState(1);
+	const generaId = () => {
+		 return setId(id + 1);
+	};
+	const [steps, setSteps] = useState([
+		{
+			id: 1,
+			step: "",
+		},
+		{
+			id: 2,
+			step: "",
+		},
+	]);
+	const agregarPaso = () => {
+		setSteps([...steps, { id: steps.at(-1).id + 1, step: "" }]);
 	};
 
-	const [steps, setSteps] = useState([]);
-	const [step, setStep] = useState("");
+	const { values, handleChange, handleSubmit } = useForm(INITIAL_STATE, steps);
+
 	return (
-		<div className={`${styles.flex} container`}>
-			<form
-				onSubmit={handleSubmit}
-				className={`${styles.flex} ${styles.formulario}`}
-			>
-				<h1>Register Ricipe</h1>
-				{/* Inputs */}
-
-				{inputs.map((input) => (
-					<FormInput
-						key={input.id}
-						{...input}
-						value={values[input.name]}
-						onChange={handleChange}
-					/>
-				))}
-
-				<span>Tipo de Dieta</span>
-
-				{/* Select Diets */}
-				<Select
-					multiple
-					onChange={(o) => setDiets(o)}
-					options={optionsDiets}
-					value={diets}
-				/>
-				{/* TextAreas */}
-
-				{textareas.map((textarea) => (
-					<textarea
-						key={textarea.id}
-						name={textarea.name}
-						value={values[textarea.name]}
-						onChange={handleChange}
-					/>
-				))}
-				<ol>
-					{steps.map((step) => (
-						<li key={step}>{step}</li>
-					))}
-				</ol>
+		<div className={styles.contenedor}>
+			<form onSubmit={handleSubmit} className={`${styles.formulario}`}>
+				<label htmlFor="title">Nombre de la receta</label>
 				<input
+					id='title'
+					onChange={handleChange}
 					type="text"
-					value={step}
-					onChange={(e) => setStep(e.target.value)}
-					onKeyDown={(e) => {
-						if (e.key === "Enter") {
-							setSteps([...steps, step]);
-							setStep("");
-						}
-					}}
+					name="title"
+					placeholder="Nombre de la receta"
 				/>
-				<input type="submit" value={"Guardar Recetea"} />
+
+				<label htmlFor="title">Health Score</label>
+				<input
+					type={"text"}
+					onChange={handleChange}
+					name='healthScore'
+					placeholder={"Health Score"}
+				/>
+
+				<label htmlFor="title">Nombre de la receta</label>
+				<textarea
+					onChange={handleChange}
+					name={"summary"}
+					placeholder={"Resumen de la receta"}
+				/>
+				{/* Paso a paso */}
+
+				<label>Nombre de la receta</label>
+				{steps.map((step) => (
+					<div key={step.id}>
+						<input
+
+							onChange={(e) => {
+								const newSteps = steps.map((s) => {
+									if (s.id === step.id) {
+										return { ...s, step: e.target.value };
+									}
+									return s;
+								});
+								setSteps(newSteps);
+							}}
+							type="text"
+							placeholder={`Paso ${step.id}`}
+						/>
+					</div>
+				))}
+
+
+				<button type="button" onClick={agregarPaso}>
+					Agregar paso
+				</button>
+				<button type='submit'>Crear receta</button>
 			</form>
 		</div>
 	);
-};
-
-export default Form;
+}
