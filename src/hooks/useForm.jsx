@@ -16,7 +16,6 @@ export default function UseForm(INITIAL_STATE,  steps, diets,) {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		values['steps'] = Object.values(steps) 
-		console.log(values)
 	};
 	return {
 		values,

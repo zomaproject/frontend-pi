@@ -27,7 +27,7 @@ export const ORDER = 'ORDER';
 
 export const SET_ORDEN = 'SET_ORDEN';
 
-export const ON_OFF = 'ON_OFF';
+export const CLEAN_ORDER = 'CLEAN_ORDER';
 
 
 // filter

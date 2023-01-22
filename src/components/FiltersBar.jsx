@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loading } from "../redux/actions/loadingAction";
-import { loadOrder, setOrdenState } from "../redux/actions/OrderAction";
 import { clearSearch, searchRecipeAction } from "../redux/actions/searchAction";
 import "../styles/Search.module.css";
 import styles from "../styles/Filter.module.css";
+import MultiSelect from "./MultiSelect";
+import useDiets from "../hooks/useDiets";
+import Orden from "./Orden";
 
 export default function FiltersBar({
 	orden,
 	setOrden,
-	optionsOrden,
-	diets,
-	setDiets,
-	optionsDiets,
+	selectedDiets,
+	setSelectedDiets,
 }) {
 	const [search, setSearch] = useState("");
 	const dispatch = useDispatch();
@@ -35,21 +35,15 @@ export default function FiltersBar({
 		dispatch(clearSearch());
 	};
 
+	const optionsDiets = useDiets()
 	return (
 		<>
 			<div className={styles.flex}>
 				<div>
-					<p>Tipo de Dieta</p>
-					{/* <Select
-						multiple
-						onChange={(o) => setDiets(o)}
-						options={optionsDiets}
-						value={diets}
-					/> */}
+						<MultiSelect  optionsLabel={optionsDiets} options = {selectedDiets} setOptions={setSelectedDiets} />
 				</div>
 
 				<div>
-					<p>Busqueda </p>
 					<form onSubmit={handleSubmit}>
 						<input
 							type="text"
@@ -65,18 +59,9 @@ export default function FiltersBar({
 						<button type="submit">Search</button>
 					</form>
 				</div>
-
-				<div>
-					<p>Tipo de orden</p>
-					{/* <Select
-						onChange={(o) => {
-							setOrden(o);
-							dispatch(setOrdenState(o.value));
-						}}
-						options={optionsOrden}
-						value={orden}
-					/> */}
-				</div>
+							<div>
+								<Orden setOrden={setOrden}/>	
+							</div>
 			</div>
 		</>
 	);

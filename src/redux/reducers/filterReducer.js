@@ -10,7 +10,7 @@ const filterReducer = (state = initialState, action) => {
     case SET_DIETS:
       return {
         ...state,
-        arrFilters: action.payload.map((e) => e.value)
+        arrFilters: action.payload
       }
     case FILTER_DIETS:
       if(state.arrFilters.length === 0) return {...state, recipesFiltered: []}
