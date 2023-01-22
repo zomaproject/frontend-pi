@@ -49,8 +49,8 @@ function App() {
             <Route path='/home' element={<Home />} />
             <Route path='/recipe/:id' element={<Details />} />
             <Route path='/create-recipe' element={<Form/>} />
-            <Route path='/*' element={<ErorPage />} />
             <Route path='/about' element={<MultiSelectDropdown />} />
+            <Route path='/*' element={<ErorPage />} />
           </Route>
         </Routes>
       </ThemeProvider>

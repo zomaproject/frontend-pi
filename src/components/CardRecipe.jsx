@@ -1,7 +1,7 @@
 import { Card } from '../styles/Card'
 
 export default function CardRecipe({ recipe }) {
-  const { image, title, Diets, id } = recipe
+  const { image, title, Diets, id,healthScore } = recipe
   return (
     <Card to={`/recipe/${id}`}>
       <div className='card'>
@@ -14,6 +14,7 @@ export default function CardRecipe({ recipe }) {
               <span key={type.name}>{type.name}</span>
             ))}
           </div>
+            <h4>Healt Score: {healthScore}</h4>
         </div>
       </div>
     </Card>

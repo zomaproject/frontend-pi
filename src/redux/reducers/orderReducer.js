@@ -41,12 +41,41 @@ export default function orderReducer(state = INITIAL_STATE, action) {
 					}),
 				};
 			}
-      if(state.typeOrden === ""){
-        return {
-          typeOrden: "",
-          recipesOrder: [],
-        }
-      }
+			if (state.typeOrden === "asc") {
+				return {
+					...state,
+					recipesOrder: action.payload.sort((a, b) => {
+						if (a.healthScore > b.healthScore) {
+							return 1;
+						}
+						if (a.healthScore < b.healthScore) {
+							return -1;
+						}
+						return 0;
+					}),
+				};
+			}
+			if (state.typeOrden === "des") {
+				return {
+					...state,
+					recipesOrder: action.payload.sort((a, b) => {
+						if (a.healthScore < b.healthScore) {
+							return 1;
+						}
+						if (a.healthScore > b.healthScore) {
+							return -1;
+						}
+						return 0;
+					}),
+				};
+			}
+
+			if (state.typeOrden === "") {
+				return {
+					typeOrden: "",
+					recipesOrder: [],
+				};
+			}
 		case CLEAN_ORDER:
 			return {
 				typeOrden: "",

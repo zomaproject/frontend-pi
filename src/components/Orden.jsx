@@ -9,8 +9,8 @@ const Orden = ({setOrden}) => {
   const [check, setCheck] = useState({
     'A-Z': false,
     'Z-A': false,
-    '0-9': false,
-    '9-0': false
+    'asc': false,
+    'des': false
   })
 
   const handleCheck = (e) => {
@@ -48,13 +48,13 @@ const Orden = ({setOrden}) => {
       </div>
 
       <div>
-        <label htmlFor="0-9">0-9</label>
-        <input type="checkbox" id='0-9' checked={check['0-9']} onChange={handleCheck} />
+        <label htmlFor="0-9">Menor a Mayor </label>
+        <input type="checkbox" id='asc' checked={check['asc']} onChange={handleCheck} />
       </div>
 
       <div>
-        <label htmlFor="9-0">9-0</label>
-        <input type="checkbox" id='9-0' checked={check['9-0']} onChange={handleCheck} />
+        <label htmlFor="9-0">Mayor a menor</label>
+        <input type="checkbox" id='des' checked={check['des']} onChange={handleCheck} />
       </div>
     </div>
   );

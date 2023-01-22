@@ -13,6 +13,7 @@ import {
 	setOrdenState,
 } from "../redux/actions/OrderAction";
 import { renderPage } from "../redux/actions/paginationActons";
+
 export default function Home() {
 	const dispatch = useDispatch();
 
@@ -40,24 +41,22 @@ export default function Home() {
 		}
 	}
 	function cargarOrden() {
-		if (orden && !selectedDiets.length > 0) {
+		if (!selectedDiets.length > 0) {
 			dispatch(loadOrderDiets(orden, [...toRender]));
-		}else {
-			dispatch(cleanOrden())
+		}
+	}
+
+
+	function cargFilterDiets() {
+		if (!orden) {
+			dispatch(loadFilterDiets(selectedDiets, [...toRender]));
 		}
 	}
 
 	function renderOrden() {
+		
 		if (orden && !selectedDiets.length > 0) {
 			dispatch(renderPage(recipesOrden));
-		}
-	}
-
-	function cargFilterDiets() {
-		if (selectedDiets.length > 0 && !orden) {
-			dispatch(loadFilterDiets(selectedDiets, toRender));
-		}else{
-			dispatch(loadFilterDiets([],toRender))
 		}
 	}
 
@@ -67,15 +66,46 @@ export default function Home() {
 		}
 	}
 
-	useEffect(cargaRecipes, [pageCurrent,allRecipes, recipesOrden.length, recipesFiltered.length]);
+	function combineFilterAndOrden() {
+		if (orden  && selectedDiets.length > 0) {
+			dispatch(loadFilterDiets(selectedDiets, toRender));
+			dispatch(loadOrderDiets(orden, [...recipesFiltered]));
+			dispatch(renderPage(recipesOrden));
+		}
+	}
 
-	useEffect(cargarOrden, [orden]);
 
-	useEffect(renderOrden, [orden,recipesOrden.length, pageCurrent]);
 
-	useEffect(cargFilterDiets, [selectedDiets, pageCurrent]);
+	useEffect(combineFilterAndOrden, [
+		pageCurrent,
+		orden,
+		selectedDiets.length,
+		recipesOrden[0]?.id,
+		recipesOrden.length,
+		recipesFiltered.length,
+	]);
 
-	useEffect(renderFilterDiets, [selectedDiets,recipesFiltered.length, pageCurrent]);
+	useEffect(cargaRecipes, [
+		pageCurrent,
+		allRecipes,
+		recipesOrden.length,
+		recipesFiltered.length,
+	]);
+
+
+	useEffect(renderOrden, [orden, recipesFiltered[0]?.id, recipesOrden.length, pageCurrent,selectedDiets.length, recipesOrden[0]?.id], );
+
+	useEffect(cargarOrden, [orden, recipesOrden[0]?.id, pageCurrent, selectedDiets.length]);
+	useEffect(cargFilterDiets, [selectedDiets, pageCurrent,orden, recipesOrden[0]?.id, recipesFiltered[0]?.id]);
+
+	useEffect(renderFilterDiets, [
+		selectedDiets,
+		recipesFiltered.length,
+		recipesOrden[0]?.id,
+		recipesFiltered[0]?.id,
+		pageCurrent,
+		orden
+	]);
 	return (
 		<>
 			<div className={"container"}>
