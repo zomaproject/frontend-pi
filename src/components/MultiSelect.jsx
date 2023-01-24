@@ -14,7 +14,8 @@ const MultiSelect = ( {optionsLabel,  options,setOptions, validate}) => {
 	};
 
 
-	const handleClearAll = () => {
+	const handleClearAll = (e) => {
+		e.preventDefault()
 		setOptions([]);
 	};
 
