@@ -2,6 +2,9 @@ import useDiets from "../hooks/useDiets";
 import styles from "../styles/Form.module.css";
 import useForm from "../hooks/useForm";
 import { useState } from "react";
+import MultiSelect from "./MultiSelect";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 export default function Form() {
 	const optionsDiets = useDiets();
 
@@ -9,14 +12,10 @@ export default function Form() {
 		title: "",
 		healthScore: "",
 		summary: "",
-		steps: [],
-		diets: [],
+		analyzedInstructions: [],
+		Diets: [],
 	};
 
-	const [id, setId] = useState(1);
-	const generaId = () => {
-		 return setId(id + 1);
-	};
 	const [steps, setSteps] = useState([
 		{
 			id: 1,
@@ -27,45 +26,84 @@ export default function Form() {
 			step: "",
 		},
 	]);
+
 	const agregarPaso = () => {
 		setSteps([...steps, { id: steps.at(-1).id + 1, step: "" }]);
 	};
 
-	const { values, handleChange, handleSubmit } = useForm(INITIAL_STATE, steps);
+	const [options, setOptions] = useState([]);
 
+	const { errores, validate, handleChange, handleSubmit } = useForm(
+		INITIAL_STATE,
+		steps,
+		options,
+	);
+
+	const eliminarPaso = (id) => {
+		if (steps.length === 2) return alert("El mínimo de pasos es 2");
+
+		const newSteps = steps.filter((step) => step.id !== id);
+		setSteps(newSteps);
+	};
+	const errorMessage = useSelector((state) => state.search.alertSearch);
 	return (
 		<div className={styles.contenedor}>
 			<form onSubmit={handleSubmit} className={`${styles.formulario}`}>
 				<label htmlFor="title">Nombre de la receta</label>
 				<input
 					id='title'
-					onChange={handleChange}
+					onChange={(e) => {
+						handleChange(e);
+						validate(e);
+					}}
 					type="text"
 					name="title"
 					placeholder="Nombre de la receta"
 				/>
 
-				<label htmlFor="title">Health Score</label>
+				{errores.title && <p>{errores.title}</p>}
+
+				<label htmlFor="score">Health Score</label>
 				<input
 					type={"text"}
-					onChange={handleChange}
+					autoComplete="off"
+					onChange={(e) => {
+						validate(e);
+						handleChange(e);
+					}}
 					name='healthScore'
 					placeholder={"Health Score"}
+					id='score'
 				/>
-
-				<label htmlFor="title">Nombre de la receta</label>
+				{errores.healthScore && <p>{errores.healthScore}</p>}
+				<label htmlFor="summary">Nombre de la receta</label>
 				<textarea
-					onChange={handleChange}
+					onChange={(e) => {
+						handleChange(e);
+						validate(e);
+					}}
 					name={"summary"}
 					placeholder={"Resumen de la receta"}
+					id='summary'
 				/>
-				{/* Paso a paso */}
+
+				{errores.summary && <p>{errores.summary}</p>}
+
+				<div>
+					<MultiSelect
+						validate={validate}
+						optionsLabel={optionsDiets}
+						options={options}
+						setOptions={setOptions}
+					/>
+					{options.length === 0 && <p>Debes seleccionar al menos una dieta</p>}
+				</div>
+				{errores.Diets && <p>{errores.Diets}</p>}
 
 				<label>Nombre de la receta</label>
 				{steps.map((step) => (
 					<div key={step.id}>
-						<input
-
+						<textarea
 							onChange={(e) => {
 								const newSteps = steps.map((s) => {
 									if (s.id === step.id) {
@@ -76,16 +114,22 @@ export default function Form() {
 								setSteps(newSteps);
 							}}
 							type="text"
-							placeholder={`Paso ${step.id}`}
+							value={step.step}
+							placeholder={"Escribe las instrucciones aquí"}
 						/>
+
+						{step.step.length >= 1 && step.step.length < 50 && (
+							<p>El mínimo de caracteres es 50</p>
+						)}
+						<button type="button" onClick={() => eliminarPaso(step.id)}>
+							Eliminar
+						</button>
 					</div>
 				))}
-
-
 				<button type="button" onClick={agregarPaso}>
 					Agregar paso
 				</button>
-				<button type='submit'>Crear receta</button>
+				<input type='submit' value={"Enviar"} />
 			</form>
 		</div>
 	);

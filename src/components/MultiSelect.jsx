@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import useDiets from "../hooks/useDiets";
 import "../styles/MultiSelect.css";
 
-const MultiSelect = ( {optionsLabel,  options,setOptions}) => {
+const MultiSelect = ( {optionsLabel,  options,setOptions, validate}) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleChange = (e) => {
@@ -44,7 +43,7 @@ const MultiSelect = ( {optionsLabel,  options,setOptions}) => {
 								type="checkbox"
 								value={option.value}
 								checked={options.includes(option.value)}
-								onChange={handleChange}
+								onChange={e => {handleChange(e)  ;validate ?   validate(e) : null}}
 							/>
 							{option.label}
 						</label>

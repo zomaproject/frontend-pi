@@ -11,12 +11,12 @@ export default (state = INITIAL_STATE, action) => {
     case CREATE_RECIPE_SUCCESS:
       return {
         ...state,
-        recipe: action.recipe,
+        recipe: action.payload.recipe,
       };
     case CREATE_RECIPE_FAILURE:
       return {
         ...state,
-        error: {error: true, msg: action.error}
+        error: {error: true, msg: action.payload.error}
       };
     default:
       return state;

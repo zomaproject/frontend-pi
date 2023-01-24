@@ -1,59 +1,71 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-const MultiSelectDropdown = () => {
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const options = [
-    { value: "option1", label: "Option 1" },
-    { value: "option2", label: "Option 2" },
-    { value: "option3", label: "Option 3" },
-    { value: "option4", label: "Option 4" },
-  ];
+function About() {
+  const [steps, setSteps] = useState([
+    {id: 1, text: 'Step 1'},
+    {id: 2, text: 'Step 2'},
+    {id: 3, text: 'Step 3'},
+    {id: 4, text: 'Step 4'},
+  ]);
+  const [draggingIndex, setDraggingIndex] = useState(null);
+  const [newStepText, setNewStepText] = useState('');
+  const [newStepId, setNewStepId] = useState(5);
 
-  const toggleOption = (value) => {
-    if (selectedOptions.includes(value)) {
-      setSelectedOptions(selectedOptions.filter((o) => o !== value));
-    } else {
-      setSelectedOptions([...selectedOptions, value]);
+  const handleMouseDown = (index) => {
+    setDraggingIndex(index);
+  }
+
+  const handleMouseMove = (e, index) => {
+    if (draggingIndex === null) {
+      return;
     }
-  };
+    // Aqui se podria implementar la lógica para cambiar la posición del elemento en la interfaz de usuario mientras se arrastra
+  }
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
+  const handleMouseUp = (index) => {
+    if (draggingIndex === null) {
+      return;
+    }
+    const newSteps = [...steps];
+    const step = newSteps.splice(draggingIndex, 1)[0];
+    newSteps.splice(index, 0, step);
+    setSteps(newSteps);
+    setDraggingIndex(null);
+  }
+
+  const handleAddStep = () => {
+    if (!newStepText) {
+      return;
+    }
+    setSteps([...steps, {id: newStepId, text: newStepText}]);
+    setNewStepText('');
+    setNewStepId(newStepId + 1);
+  }
+
+  const handleRemoveStep = (index) => {
+    const newSteps = [...steps];
+    newSteps.splice(index, 1);
+    setSteps(newSteps);
+  }
 
   return (
-    <div style={{ position: "relative" }}>
-      <button  onKeyDown={e => e.preventDefault()} onClick={toggleDropdown} style={{ padding: "10px" }}>
-        Select Options
-      </button>
-      {dropdownOpen && (
-        <div style={{ position: "absolute", top: "35px", left: "0" }}>
-          <div
-            style={{
-              backgroundColor: "#f2f2f2",
-              padding: "10px",
-              borderRadius: "5px",
-              boxShadow: "0px 0px 5px #ccc",
-            }}
-          >
-            {options.map((option) => (
-              <div key={option.value}>
-                <input
-                  type="checkbox"
-                  checked={selectedOptions.includes(option.value)}
-                  onChange={() => toggleOption(option.value)}
-									onKeyDown={(e) => { e.preventDefault(); }}
-                  style={{ marginRight: "10px" }}
-                />
-                <label>{option.label}</label>
-              </div>
-            ))}
-          </div>
+    <div>
+      <div>
+        <input type="text" value={newStepText} onChange={(e) => setNewStepText(e.target.value)} placeholder="New step text" />
+        <button onClick={handleAddStep}>Add Step</button>
+      </div>
+      {steps.map((step, index) => (
+        <div
+          key={step.id}
+          onMouseDown={() => handleMouseDown(index)}
+          onMouseMove={(e) => handleMouseMove(e, index)}
+          onMouseUp={() => handleMouseUp(index)}
+        >
+          {step.text}
+          <button onClick={() => handleRemoveStep(index)}>Remove</button>
         </div>
-      )}
+      ))}
     </div>
   );
-};
-
-export default MultiSelectDropdown;
+}
+export default About;

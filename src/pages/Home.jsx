@@ -29,7 +29,7 @@ export default function Home() {
 		stateOrder,
 	} = useReduxStates();
 
-	const toRender = searchRecipes.length > 0 ? searchRecipes : allRecipes;
+	const toRender = searchRecipes.length  ? searchRecipes : allRecipes;
 
 	const [orden, setOrden] = useState("");
 
@@ -83,6 +83,7 @@ export default function Home() {
 		recipesOrden[0]?.id,
 		recipesOrden.length,
 		recipesFiltered.length,
+		searchRecipes.length,
 	]);
 
 	useEffect(cargaRecipes, [
@@ -90,6 +91,7 @@ export default function Home() {
 		allRecipes,
 		recipesOrden.length,
 		recipesFiltered.length,
+		searchRecipes.length,
 	]);
 
 
@@ -104,7 +106,9 @@ export default function Home() {
 		recipesOrden[0]?.id,
 		recipesFiltered[0]?.id,
 		pageCurrent,
-		orden
+		orden,
+		recipesFiltered.length,
+		searchRecipes.length,
 	]);
 	return (
 		<>
