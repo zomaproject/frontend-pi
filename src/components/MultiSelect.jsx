@@ -1,56 +1,59 @@
 import React, { useState } from "react";
-import "../styles/MultiSelect.css";
 
-const MultiSelect = ( {optionsLabel,  options,setOptions, validate}) => {
+const MultiSelect = ({ optionsLabel: opt, options, setOptions }) => {
+	// const opt = optionsLabel.map((option) => option.value);
 	const [isOpen, setIsOpen] = useState(false);
-
-	const handleChange = (e) => {
-		const selectedOption = e.target.value;
-		if (options.includes(selectedOption)) {
-			setOptions(options.filter((o) => o !== selectedOption));
+	const handleClick = (option) => {
+		if (options.includes(option)) {
+			setOptions(options.filter((val) => val !== option));
 		} else {
-			setOptions([...options, selectedOption]);
+			setOptions([...options, option]);
 		}
 	};
 
-
-	const handleClearAll = (e) => {
-		e.preventDefault()
-		setOptions([]);
-	};
-
-	const toggleOptions = () => {
-		setIsOpen(!isOpen);
+	const handleRemove = (option) => {
+		setOptions(options.filter((val) => val !== option));
 	};
 
 	return (
-		<div  className='pos-absolute'>
-			<div>
-				<button
-					onClick={toggleOptions}
-					className={`multi-select-button ${isOpen ? "open" : ""}`}
-				>
-					{options?.length === 0
-						? "Seleccione las Dietas que desa Ver"
-						: options.join(", ")}
-				</button>
-				<div
-					className={`options-container ${isOpen ? "open" : ""} pos-absolute`}
-				>
-					<button onClick={handleClearAll}>Clear All</button>
-					{optionsLabel.map((option) => (
-						<label key={option.id}>
-							<input
-								type="checkbox"
-								value={option.value}
-								checked={options.includes(option.value)}
-								onChange={e => {handleChange(e)  ;validate ?   validate(e) : null}}
-							/>
-							{option.label}
-						</label>
-					))}
-				</div>
+		<div className="dropdown-list-multiselect">
+			{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+			<div
+				className="dropdown-list-multiselect__selected-options"
+				onClick={() => setIsOpen(!isOpen)}
+			>
+				Selected options:
+				{options.map((option) => (
+					<span
+						key={option}
+						className="dropdown-list-multiselect__selected-option"
+					>
+						{option}
+						<button
+							className="dropdown-list-multiselect__remove-button"
+							onClick={() => handleRemove(option)}
+						>
+							x
+						</button>
+					</span>
+				))}
 			</div>
+			{isOpen && (
+				<ul className="dropdown-list-multiselect__options">
+					{opt.map((option) => (
+						// rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+						<li
+							key={option}
+							className={`dropdown-list-multiselect__option ${
+								options.includes(option) ? "selected" : ""
+							}`}
+							onClick={() => handleClick(option)}
+						>
+							{option}
+						</li>
+					))}
+				</ul>
+			)}
 		</div>
 	);
 };

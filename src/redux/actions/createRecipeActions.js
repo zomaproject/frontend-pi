@@ -7,7 +7,7 @@ export const createRecipe =  (recipe) => {
       const response =  await clienteAxios.post('/recipes', recipe);
       dispatch(createRecipeSuccess(response.data)) 
     }catch(e){
-      console.log(e)
+      dispatch(createRecipeFailure(e.response.data.msg))
     }
 }
 }
@@ -21,9 +21,9 @@ const createRecipeSuccess = (recipe) => {
   };
 }
 
-const createRecipeFailure = (error) => {
+export const createRecipeFailure = (msg) => {
   return {
     type: CREATE_RECIPE_FAILURE,
-    payload: error
+    payload: msg
   };
 }

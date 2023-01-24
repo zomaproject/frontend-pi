@@ -1,21 +1,16 @@
-import useDiets from "../hooks/useDiets";
-import styles from "../styles/Form.module.css";
 import useForm from "../hooks/useForm";
+import styled from "styled-components";
 import { useState } from "react";
-import MultiSelect from "./MultiSelect";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import Alert from "./Alert";
+import MultiSelect from "./MultiSelect";
+import useDiets from "../hooks/useDiets";
 export default function Form() {
-	const optionsDiets = useDiets();
-
 	const INITIAL_STATE = {
 		title: "",
 		healthScore: "",
 		summary: "",
-		analyzedInstructions: [],
-		Diets: [],
 	};
-
 	const [steps, setSteps] = useState([
 		{
 			id: 1,
@@ -27,110 +22,160 @@ export default function Form() {
 		},
 	]);
 
-	const agregarPaso = () => {
-		setSteps([...steps, { id: steps.at(-1).id + 1, step: "" }]);
+	const addStep = () => {
+		setSteps([
+			...steps,
+			{
+				id: steps.at(-1).id + 1,
+				step: "",
+			},
+		]);
 	};
 
-	const [options, setOptions] = useState([]);
+	const eliminarPaso = () => {
+		if (steps.length <= 2) {
+			return alert("El mínimo de pasos es 2");
+		}
+		if (confirm("Desea Eliminar el último paso")) {
+			setSteps(steps.slice(0, -1));
+		}
+	};
 
-	const { errores, validate, handleChange, handleSubmit } = useForm(
-		INITIAL_STATE,
-		steps,
-		options,
-	);
-
-	const eliminarPaso = (id) => {
-		if (steps.length === 2) return alert("El mínimo de pasos es 2");
-
-		const newSteps = steps.filter((step) => step.id !== id);
+ const addStepState = (e) => {
+		const { id, value } = e.target;
+		const newSteps = steps.map((s) => {
+			if (s.id === parseInt(id)) {
+				return { ...s, step: value };
+			}
+			return s;
+		});
 		setSteps(newSteps);
 	};
-	const errorMessage = useSelector((state) => state.search.alertSearch);
+
+	const [selectedDiets, setSelectedDiets] = useState([])
+	// Llamar el hook
+
+	const { values, handleValues, handleSubmit } = useForm(INITIAL_STATE, steps, selectedDiets);
+
+	const validate = () => {
+		let errores = {};
+	};
+	const { msg, error } = useSelector((state) => state.createRecipe.msg);
+
+	const optionsDiets  = useDiets()
 	return (
-		<div className={styles.contenedor}>
-			<form onSubmit={handleSubmit} className={`${styles.formulario}`}>
+		<StyleDiv>
+			<form onSubmit={handleSubmit}>
+				{msg && <Alert error={error}>{msg}</Alert>}
 				<label htmlFor="title">Nombre de la receta</label>
 				<input
-					id='title'
-					onChange={(e) => {
-						handleChange(e);
-						validate(e);
-					}}
 					type="text"
+					id="title"
 					name="title"
-					placeholder="Nombre de la receta"
+					value={values.title}
+					autoComplete='off'
+					onChange={(e) => handleValues(e)}
 				/>
-
-				{errores.title && <p>{errores.title}</p>}
-
-				<label htmlFor="score">Health Score</label>
+				<label htmlFor="healthScore">HealthScore</label>
 				<input
-					type={"text"}
-					autoComplete="off"
-					onChange={(e) => {
-						validate(e);
-						handleChange(e);
-					}}
+					type="text"
+					autoComplete='off'
 					name='healthScore'
-					placeholder={"Health Score"}
-					id='score'
+					value={values.healthScore}
+					onChange={(e) => handleValues(e)}
 				/>
-				{errores.healthScore && <p>{errores.healthScore}</p>}
-				<label htmlFor="summary">Nombre de la receta</label>
+
+
+					<MultiSelect optionsLabel={optionsDiets}  options={selectedDiets} setOptions={setSelectedDiets}/>
+
+
+				<label htmlFor="summary">Summary</label>
+
+
+
 				<textarea
-					onChange={(e) => {
-						handleChange(e);
-						validate(e);
-					}}
-					name={"summary"}
-					placeholder={"Resumen de la receta"}
-					id='summary'
+					name='summary'
+					value={values.summary}
+					onChange={(e) => handleValues(e)}
 				/>
-
-				{errores.summary && <p>{errores.summary}</p>}
-
-				<div>
-					<MultiSelect
-						validate={validate}
-						optionsLabel={optionsDiets}
-						options={options}
-						setOptions={setOptions}
-					/>
-					{options.length === 0 && <p>Debes seleccionar al menos una dieta</p>}
-				</div>
-				{errores.Diets && <p>{errores.Diets}</p>}
-
-				<label>Nombre de la receta</label>
-				{steps.map((step) => (
-					<div key={step.id}>
-						<textarea
-							onChange={(e) => {
-								const newSteps = steps.map((s) => {
-									if (s.id === step.id) {
-										return { ...s, step: e.target.value };
-									}
-									return s;
-								});
-								setSteps(newSteps);
-							}}
-							type="text"
-							value={step.step}
-							placeholder={"Escribe las instrucciones aquí"}
-						/>
-
-						{step.step.length >= 1 && step.step.length < 50 && (
-							<p>El mínimo de caracteres es 50</p>
-						)}
-						<button type="button" onClick={() => eliminarPaso(step.id)}>
-							Eliminar
-						</button>
-					</div>
+				<label htmlFor="stepByStep">Instruccions</label>
+				{steps.map((s) => (
+					<textarea id={s.id} key={s.id} onChange={addStepState} />
 				))}
-				<button type="button" onClick={agregarPaso}>
-					Agregar paso
-				</button>
-				<input type='submit' value={"Enviar"} />
+
+					
+				{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+				<span className="addStep" onClick={() => addStep()}>
+					Agrega Paso{" "}
+				</span>
+				{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+				<span className="delStep" onClick={() => eliminarPaso()}>
+					Eliminar Último Paso
+				</span>
+				<input type='submit' value='Guardar receta' />
 			</form>
-		</div>
+		</StyleDiv>
 	);
 }
+
+const StyleDiv = styled.div`
+.addStep{
+	background-color: green;
+}
+.addStep, .delStep {
+	padding:  0.4rem 0.5rem;
+	border-radius: 1rem;
+	margin-right: 2rem;
+	margin-bottom: 1rem;
+	cursor: pointer;
+}
+
+.delStep {
+	background-color: red;
+}
+
+	max-width: 50rem;
+	margin: 0 auto;
+	label {
+		display: block;
+		margin-top: 1rem;
+	}
+	
+	form {
+		display: block;
+	}
+
+input {
+			width: 100%;
+			margin-bottom: 3rem;
+			padding: 1rem;
+			border: 2px solid white;
+		
+		}
+input[type=text]:focus {
+  border: 2px solid #6dc30a;
+}
+textarea{
+	display: block;
+	width: 100%;
+	resize: none;
+	height: 8rem;
+	margin-bottom: 1rem;
+	padding: 1rem;
+}
+textarea:focus{
+	border: 2px solid #6dc30a;
+}
+input[type=submit]{
+	margin-top: 2rem;
+  background-color: #2e3192;
+  color: #fff;
+  border-radius: 1rem;
+  font-size: 1.8rem;
+  height: 5rem;
+  &:hover {
+    background-color: #3b48cc;
+    cursor: pointer;
+  }
+}
+`;

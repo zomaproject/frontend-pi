@@ -3,7 +3,7 @@ import { CREATE_RECIPE_SUCCESS, CREATE_RECIPE_FAILURE } from "../types";
 
 const INITIAL_STATE = {
   recipe: {},
-  error: {},
+  msg: {},
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -11,12 +11,13 @@ export default (state = INITIAL_STATE, action) => {
     case CREATE_RECIPE_SUCCESS:
       return {
         ...state,
-        recipe: action.payload.recipe,
+        recipe: action.payload,
+        msg: {error: false , msg: 'Receta creada correctamente'}
       };
     case CREATE_RECIPE_FAILURE:
       return {
         ...state,
-        error: {error: true, msg: action.payload.error}
+        msg: {error: true, msg: action.payload}
       };
     default:
       return state;

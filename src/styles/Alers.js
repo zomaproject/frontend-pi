@@ -1,15 +1,21 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
-
-export  const StyleAlert  = styled.div`
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid #f5c6cb;
-  border-radius: 0.25rem;
-  width: 20rem;
+export const StyleAlert = styled.div`
+  color: white;
   text-align: center;
-  margin: 0 auto;
-  margin-top: 10rem;
-`
+  font-weight: 900;
+  margin: 5rem auto;
+  padding: 0.5rem;
+  border-radius: 1rem;
+
+  &.error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  }
+   &.success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb
+  }
+`;
