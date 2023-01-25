@@ -13,7 +13,7 @@ export default function Details() {
 		dispatch(loadDetail(id)).then(() => dispatch(loading(false)));
 	}, [id]);
 	const detailRecipe = useSelector((state) => state.details.details);
-	const { summary, title, image, Diets, healthScore, analyzedInstructions } =
+	const { summary, title, image, Diets, healthScore,  instructions } =
 		detailRecipe;
 	const isLoading = useSelector((state) => state.loading.loading);
 	if (isLoading) return <Loading />;
@@ -39,7 +39,7 @@ export default function Details() {
 			<details className="steps">
 				<summary>Step By Step</summary>
 				<ol>
-					{analyzedInstructions?.map((step) => (
+					{instructions?.map((step) => (
 						<li key={step[0]}>{step}</li>
 					))}
 				</ol>

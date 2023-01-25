@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { generarId } from "../helpers/generarId";
 
 const MultiSelect = ({ optionsLabel: opt, options, setOptions }) => {
 	// const opt = optionsLabel.map((option) => option.value);
@@ -25,7 +26,7 @@ const MultiSelect = ({ optionsLabel: opt, options, setOptions }) => {
 				Selected options:
 				{options.map((option) => (
 					<span
-						key={option}
+						key={generarId()}
 						className="dropdown-list-multiselect__selected-option"
 					>
 						{option}
