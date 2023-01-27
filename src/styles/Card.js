@@ -17,7 +17,7 @@ export const Card = styled(Link)`
     transition: 0.3s;
     border-radius: 5px;
     width: 30rem;
-    height: 37rem;
+    height: 40rem;
   }
   h4{
     margin: 0;
@@ -74,4 +74,5 @@ export const Grid = styled.main`
   /* border: 1px solid ${({ theme }) => theme.border}; */
   /* padding-top: 2rem; */
   /* border-radius: 1rem; */
+  min-height: 100vh;
 `

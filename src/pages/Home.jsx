@@ -6,13 +6,15 @@ import CarsRecipe from "../components/CarsRecipe";
 import FiltersBar from "../components/FiltersBar";
 import Pagination from "../components/Pagination";
 import useReduxStates from "../hooks/useReduxStates";
+import { cleanRecipe } from "../redux/actions/createRecipeActions";
 import { loadFilterDiets } from "../redux/actions/filterPerDiets";
 import {
 	cleanOrden,
 	loadOrderDiets,
 	setOrdenState,
 } from "../redux/actions/OrderAction";
-import { renderPage } from "../redux/actions/paginationActons";
+import { renderPage, setPage } from "../redux/actions/paginationActons";
+
 
 export default function Home() {
 	const dispatch = useDispatch();
@@ -28,6 +30,11 @@ export default function Home() {
 		searchRecipes,
 		stateOrder,
 	} = useReduxStates();
+
+	const { recipe }  = useSelector(state => state.createRecipe)
+	useEffect(()=> {
+		dispatch(cleanRecipe())
+	},[recipe?.id])
 
 	const toRender = searchRecipes.length  ? searchRecipes : allRecipes;
 
@@ -54,7 +61,6 @@ export default function Home() {
 	}
 
 	function renderOrden() {
-		
 		if (orden && !selectedDiets.length > 0) {
 			dispatch(renderPage(recipesOrden));
 		}
@@ -110,6 +116,14 @@ export default function Home() {
 		recipesFiltered.length,
 		searchRecipes.length,
 	]);
+
+const { pagesTotal} = useSelector(state => state.pagination)
+	useEffect(()=> {
+		if(pageCurrent > pagesTotal){
+			dispatch(setPage(1))
+		}
+	},[pagesTotal])
+
 	return (
 		<>
 			<div className={"container"}>

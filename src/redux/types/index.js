@@ -11,6 +11,7 @@ export const GET_DIETS = 'GET_DIETS';
 
 export const GET_DETAILS = 'GET_DETAILS';
 
+export const UPDATE_RECIPES  = "UPDATE_RECIPES"
 
 
 /// pagination
@@ -42,3 +43,4 @@ export  const CREATE_RECIPE_SUCCESS = 'CREATE_RECIPE_SUCCESS';
 
 export const CREATE_RECIPE_FAILURE = 'CREATE_RECIPE_FAILURE';
 
+export const CLEAN_CREATE = 'CLEAN_CREATE'

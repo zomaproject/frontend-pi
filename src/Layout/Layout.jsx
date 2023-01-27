@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
+import { Footer } from '../styles/footer'
 
 import { Nav, NavBg } from '../styles/Nav'
 
-export default function Layout({ handleTema, temaActual }) {
+export default function Layout({ handleTema }) {
   return (
     <div>
       <header>
@@ -42,12 +43,12 @@ export default function Layout({ handleTema, temaActual }) {
         </NavBg>
       </header>
       <Outlet />
-      {/* <Footer>
+      <Footer>
         <div className='container'>
           <NavLink to={'#'} className={'fa fa-github'}>{}</NavLink>
           <NavLink to={'#'} className={'fa fa-linkedin'}>{}</NavLink>
         </div>
-      </Footer> */}
+      </Footer>
     </div>
   )
 }

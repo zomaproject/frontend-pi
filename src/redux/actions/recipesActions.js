@@ -1,5 +1,5 @@
 import clienteAxios from '../../config/clienteAxios'
-import { LOAD_DATA } from '../types'
+import { LOAD_DATA, UPDATE_RECIPES } from '../types'
 
 const setRecipes = (recipes) => {
   return {
@@ -18,3 +18,12 @@ export const dowloadData = () => {
     }
   }
 }
+
+
+
+export const updateRecipes = (recipe) => {
+  return {
+    type: UPDATE_RECIPES,
+    payload: recipe
+  }
+} 

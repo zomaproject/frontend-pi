@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export  const StyleForm = styled.div`
+p {
+	color: red;
+}
 .addStep{
 	background-color: green;
 }
@@ -29,7 +32,7 @@ export  const StyleForm = styled.div`
 
 input {
 			width: 100%;
-			margin-bottom: 3rem;
+			margin-bottom: 1rem;
 			padding: 1rem;
 			border: 2px solid white;
 		

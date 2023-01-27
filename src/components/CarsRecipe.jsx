@@ -4,6 +4,10 @@ import { useSelector } from "react-redux";
 import Loading from "./Loading";
 export default function CarsRecipe({ recipes }) {
 	const loading = useSelector((state) => state.loading.loading);
+
+
+
+
 	if (loading) return <Loading />;
 	return (
 		<>

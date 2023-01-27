@@ -28,9 +28,11 @@ function App() {
 		localStorage.setItem("tema", temaActual);
 	}, [temaActual]);
 
-	useEffect(() => {
+
+
+	useEffect( () => {
 		dispatch(loading(true));
-		dispatch(dowloadData()).then(() => dispatch(loading(false)));
+		 dispatch(dowloadData()).then(() => dispatch(loading(false)));
 	}, []);
 
 	useEffect(() => {

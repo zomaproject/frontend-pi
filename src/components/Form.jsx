@@ -1,13 +1,15 @@
 import useForm from "../hooks/useForm";
 import React from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Alert from "./Alert";
 import MultiSelect from "./MultiSelect";
 import useDiets from "../hooks/useDiets";
 import { StyleForm } from "../styles/Form";
 import { generarId } from "../helpers/generarId";
 import { useEffect } from "react";
+import { updateRecipes } from "../redux/actions/recipesActions";
+import { cleanRecipe, createRecipeFailure } from "../redux/actions/createRecipeActions";
 export default function Form() {
 	const INITIAL_STATE = {
 		title: "",
@@ -59,32 +61,43 @@ export default function Form() {
 	const [selectedDiets, setSelectedDiets] = useState([]);
 	// Llamar el hook
 
-	const { values, errores, handleValues, handleSubmit, validForm,setValues } = useForm(
+	const { values, errores, handleValues, handleSubmit, validForm, setValues } = useForm(
 		INITIAL_STATE,
 		steps,
 		selectedDiets,
 	);
 
 	const { msg, error } = useSelector((state) => state.createRecipe.msg);
-
-		useEffect(()=> {
-			if(error){
-				return 
-			}else{
-				setSteps([
-					{
-						id: 1,
-						step: "",
-					},
-					{
-						id: 2,
-						step: "",
-					},
-				]);
-				setValues(INITIAL_STATE);
-				setSelectedDiets([]);
+	const { recipe } = useSelector(state => state.createRecipe)
+	const dispatch = useDispatch()
+	useEffect(() => {
+		if (error) {
+			setTimeout(() => {
+				dispatch(createRecipeFailure(''))
+			}, 3000)
+			return
+		} else {
+			setSteps([
+				{
+					id: 1,
+					step: "",
+				},
+				{
+					id: 2,
+					step: "",
+				},
+			]);
+			setValues(INITIAL_STATE);
+			setSelectedDiets([]);
+			if (recipe?.id) {
+				dispatch(updateRecipes(recipe))
 			}
-		},[error, msg])
+			setTimeout(() => {
+				dispatch(createRecipeFailure(''))
+			}, 3000)
+
+		}
+	}, [error, msg])
 
 	const optionsDiets = useDiets();
 	return (
@@ -149,10 +162,10 @@ export default function Form() {
 				<label htmlFor="stepByStep">Instruccions</label>
 				{steps.map((s) => (
 					<div key={s.id}>
-						<textarea id={s.id}  value={s.step} onChange={addStepState} />
+						<textarea id={s.id} value={s.step} onChange={addStepState} />
 
 						<p>
-							 {s.step.length >= 1 && s.step.length < 20 || s.step.length > 200   ? 'El paso debe tener entre 20 y 200 caracteres' : ''}  
+							{s.step.length >= 1 && s.step.length < 20 || s.step.length > 200 ? 'El paso debe tener entre 20 y 200 caracteres' : ''}
 						</p>
 					</div>
 				))}

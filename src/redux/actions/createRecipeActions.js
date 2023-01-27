@@ -1,4 +1,4 @@
-import { CREATE_RECIPE_FAILURE, CREATE_RECIPE_SUCCESS } from "../types";
+import { CLEAN_CREATE, CREATE_RECIPE_FAILURE, CREATE_RECIPE_SUCCESS } from "../types";
 import clienteAxios from "../../config/clienteAxios";
 
 export const createRecipe =  (recipe) => {
@@ -26,4 +26,10 @@ export const createRecipeFailure = (msg) => {
     type: CREATE_RECIPE_FAILURE,
     payload: msg
   };
+}
+
+export const cleanRecipe  = () => {
+  return {
+    type: CLEAN_CREATE
+  }
 }

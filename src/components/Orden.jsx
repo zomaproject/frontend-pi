@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { StyledOrden } from "../styles/Orden";
 
 const Orden = ({ setOrden }) => {
-	const dispatch = useDispatch();
 	const [check, setCheck] = useState({
 		"A-Z": false,
 		"Z-A": false,
@@ -35,7 +35,11 @@ const Orden = ({ setOrden }) => {
 	return (
 		<StyledOrden>
 			{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-			<span onClick={() => setShow(!show)}>Seleccione orden</span>
+			<span className="icon-orden" onClick={() => setShow(!show)}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="orden">
+				<path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25" />
+			</svg>
+				Orden
+			</span>
 			<div className={`${show ? "show" : "hiden"} options`}>
 				<div>
 					<label htmlFor="a-z">
@@ -46,7 +50,8 @@ const Orden = ({ setOrden }) => {
 							height="32"
 							viewBox="0 0 24 24"
 							strokeWidth="1.5"
-							stroke="#2c3e50"
+							// stroke="#2c3e50"
+							stroke="#fff"
 							fill="none"
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -75,7 +80,9 @@ const Orden = ({ setOrden }) => {
 							height="32"
 							viewBox="0 0 24 24"
 							strokeWidth="1.5"
-							stroke="#2c3e50"
+							// stroke="#2c3e50"
+
+							stroke="#fff"
 							fill="none"
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -105,7 +112,9 @@ const Orden = ({ setOrden }) => {
 							height="32"
 							viewBox="0 0 24 24"
 							strokeWidth="1.5"
-							stroke="#2c3e50"
+							// stroke="#2c3e50"
+
+							// stroke="#fff"
 							fill="none"
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -136,7 +145,8 @@ const Orden = ({ setOrden }) => {
 							height="32"
 							viewBox="0 0 24 24"
 							strokeWidth="1.5"
-							stroke="#2c3e50"
+							// stroke="#2c3e50"
+							// stroke="#fff"
 							fill="none"
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -163,33 +173,3 @@ const Orden = ({ setOrden }) => {
 
 export default Orden;
 
-const StyledOrden = styled.div`
-  user-select: none;
-   cursor:pointer;
-  position: relative;
-  
-  & span {
-    display: block;
-      
-  }
-  /* label {
-    display: block;
-  } */
-
-  & .options {
-    position: absolute;
-  }
-  & .hiden {
-    display: none;
-  }
-
-  & .show {
-    display: block;
-  }
-  input[type="checkbox"] {
-    margin: 0 0.5rem;
-    width: 2rem;
-    height: 2rem;
-  }
-
-`;

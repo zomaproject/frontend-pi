@@ -1,4 +1,4 @@
-import { CREATE_RECIPE_SUCCESS, CREATE_RECIPE_FAILURE } from "../types";
+import { CREATE_RECIPE_SUCCESS, CREATE_RECIPE_FAILURE, CLEAN_CREATE } from "../types";
 
 
 const INITIAL_STATE = {
@@ -19,6 +19,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         msg: {error: true, msg: action.payload}
       };
+    case CLEAN_CREATE:
+      return {
+        recipe: {},
+        msg: {},
+      }
+
     default:
       return state;
   }
