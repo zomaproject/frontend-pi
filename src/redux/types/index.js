@@ -13,7 +13,10 @@ export const GET_DETAILS = 'GET_DETAILS';
 
 export const UPDATE_RECIPES  = "UPDATE_RECIPES"
 
+export const UPDATE_DELETE = 'UPDATE_DELETE'
+export const MENSAJE_STATE_RECIPES = 'MENSAJE_STATE_RECIPES'
 
+export const SET_RECIPE_TO_EDIT = 'SET_RECIPE_TO_EDIT'
 /// pagination
 
 

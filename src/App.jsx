@@ -13,6 +13,7 @@ import Details from "./pages/Details";
 import Form from "./components/Form";
 import { loadDiets } from "./redux/actions/getTypeDietsAction";
 import MultiSelectDropdown from "./pages/About";
+import Landing from "./pages/Landing";
 
 function App() {
 	const [temaActual, setTemaActual] = useState(
@@ -48,6 +49,7 @@ function App() {
 						element={<Layout handleTema={handleTema} temaActual={temaActual} />}
 						errorElement={<ErorPage />}
 					>
+						<Route path="/" element={<Landing/>} />
 						<Route path='/home' element={<Home />} />
 						<Route path='/recipe/:id' element={<Details />} />
 						<Route path='/create-recipe' element={<Form />} />

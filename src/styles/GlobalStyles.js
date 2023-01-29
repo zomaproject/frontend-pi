@@ -51,6 +51,12 @@ const GlobalStyles = createGlobalStyle`
     font-size: 1.5rem;
  }
 
+.landing {
+   /* background-image: url('https://cdn.pixabay.com/photo/2023/01/07/07/16/houses-7702757_960_720.jpg'); */
+}
 
+.layout {
+   position: relative;
+}
 `
 export default GlobalStyles

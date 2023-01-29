@@ -15,7 +15,7 @@ const useForm = (INITIAL_STATE, steps, Diets) => {
 		const { name, value } = e.target;
 		setValues({
 			...values,
-			[name]: value,
+			[name]: [name] === 'image' ? e.target.files[0] : value,
 		});
 	};
 
@@ -87,7 +87,7 @@ const useForm = (INITIAL_STATE, steps, Diets) => {
 				...errores,
 				["steps"]: "Los pasos deben tener entre 10 y 200 caracteres",
 			});
-		}else{
+		} else {
 			setErrores({
 				...errores,
 				["steps"]: "",
@@ -107,8 +107,21 @@ const useForm = (INITIAL_STATE, steps, Diets) => {
 			console.log(Object.values(errores))
 			return;
 		}
-			
-			dispatch(createRecipe(values)).then();
+		const formData = new FormData();
+		formData.append("title", values.title);
+		formData.append("summary", values.summary);	
+		formData.append("healthScore", values.healthScore);
+		formData.append("instructions", values.instructions);
+		formData.append("Diets", values.Diets);
+		formData.append('image', values.image)
+
+
+				// mostrar el formdata en consola
+		for (var value of formData.values()) {
+			console.log(value);
+		}
+
+		dispatch(createRecipe(formData)).then();
 	};
 
 	return {

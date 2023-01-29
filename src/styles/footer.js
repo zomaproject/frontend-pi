@@ -1,9 +1,9 @@
-import styled from 'styled-components'
-
+import styled from "styled-components";
 
 export const Footer = styled.footer`
+
   display: flex;
-  margin-top: 6rem;
+  /* margin-top: 6rem; */
   border-top: 0.25rem solid ${({ theme }) => theme.fg};
   & a {
     padding: 2rem;
@@ -18,4 +18,4 @@ export const Footer = styled.footer`
     opacity: 0.5;
   }
 
-`
+`;

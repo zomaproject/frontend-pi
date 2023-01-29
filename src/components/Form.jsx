@@ -10,33 +10,22 @@ import { generarId } from "../helpers/generarId";
 import { useEffect } from "react";
 import { updateRecipes } from "../redux/actions/recipesActions";
 import { cleanRecipe, createRecipeFailure } from "../redux/actions/createRecipeActions";
-export default function Form() {
-	const INITIAL_STATE = {
-		title: "",
-		healthScore: "",
-		summary: "",
-		image: "",
-	};
-	const [steps, setSteps] = useState([
-		{
-			id: 1,
-			step: "",
-		},
-		{
-			id: 2,
-			step: "",
-		},
-	]);
 
-	const addStep = () => {
-		setSteps([
-			...steps,
-			{
-				id: steps.at(-1).id + 1,
-				step: "",
-			},
-		]);
+
+
+export default function Form() {
+
+	const { title, image, instructions, summary, healthScore, Diets, id } = useSelector(state => state.recipes.recipeToEdit)
+	const INITIAL_STATE = {
+		idDB: id,
+		title: title || '',
+		healthScore: healthScore || "",
+		summary: summary || "",
+		image: image || "",
 	};
+
+	const state = instructions?.map((e, i) => ({ id: i, step: e }))
+
 
 	const eliminarPaso = () => {
 		if (steps.length <= 2) {
@@ -58,14 +47,10 @@ export default function Form() {
 		setSteps(newSteps);
 	};
 
-	const [selectedDiets, setSelectedDiets] = useState([]);
+	const [selectedDiets, setSelectedDiets] = useState(
+		[]);
 	// Llamar el hook
 
-	const { values, errores, handleValues, handleSubmit, validForm, setValues } = useForm(
-		INITIAL_STATE,
-		steps,
-		selectedDiets,
-	);
 
 	const { msg, error } = useSelector((state) => state.createRecipe.msg);
 	const { recipe } = useSelector(state => state.createRecipe)
@@ -100,6 +85,42 @@ export default function Form() {
 	}, [error, msg])
 
 	const optionsDiets = useDiets();
+
+	const [steps, setSteps] = useState(
+		[
+			{
+				id: 1,
+				step: "",
+			},
+			{
+				id: 2,
+				step: "",
+			},
+		]);
+
+	const addStep = () => {
+		setSteps([
+			...steps,
+			{
+				id: steps.at(-1).id + 1,
+				step: "",
+			},
+		]);
+	};
+
+	const { values, errores, handleValues, handleSubmit, validForm, setValues } = useForm(
+		INITIAL_STATE,
+		steps,
+		selectedDiets,
+	);
+
+	useEffect(() => {
+		if (id) {
+			setSteps(state)
+			setSelectedDiets(Diets.map(e => e.name))
+		}
+
+	}, [id])
 	return (
 		<StyleForm>
 			<form onSubmit={handleSubmit}>
@@ -131,8 +152,8 @@ export default function Form() {
 				{errores.healthScore && <p>{errores.healthScore}</p>}
 				<label htmlFor="image">Image</label>
 				<input
-					type='text'
-					autoComplete="off"
+					type='file'
+					// autoComplete="off"
 					name='image'
 					value={values.image}
 					onChange={(e) => handleValues(e)}
@@ -180,7 +201,7 @@ export default function Form() {
 				<span className="delStep" onClick={() => eliminarPaso()}>
 					Eliminar Último Paso
 				</span>
-				<input type='submit' value='Guardar receta' />
+				<input type='submit' value={id ? 'Guardar Cambios' : 'Guardar receta'} />
 			</form>
 		</StyleForm>
 	);

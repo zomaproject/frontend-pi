@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const NavBg = styled.div`
   background: ${({ theme }) => theme.bg2};
   /* padding: 0.9rem; */
-  margin-bottom: 5rem;
+  /* margin-bottom: 5rem; */
 `
 
 export const Nav = styled.nav`
@@ -11,7 +11,7 @@ export const Nav = styled.nav`
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  margin-bottom: 4rem;
+  /* margin-bottom: 4rem; */
   a {
     color: ${({ theme }) => theme.fg};
     font-weight: 700;
