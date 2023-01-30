@@ -1,7 +1,7 @@
 import {
 	LOAD_DATA,
 	CLEAN_MSG,
-	MENSAJE_STATE_RECIPES,
+	MESSAGE_STATE_RECIPES,
 	SET_RECIPE_TO_EDIT,
 	UPDATE_DELETE,
 	UPDATE_EDIT,
@@ -38,7 +38,7 @@ export default function recipesReducer(state = INITIAL_STATE, action) {
 					e.id === action.payload.id ? action.payload : e,
 				),
 			};
-		case MENSAJE_STATE_RECIPES:
+		case MESSAGE_STATE_RECIPES:
 			return {
 				...state,
 				msg: action.payload,

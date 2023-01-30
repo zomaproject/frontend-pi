@@ -102,7 +102,7 @@ export default function Form() {
 		}
 	},[id])
 
-	const { handleSubmit, handleValues, values, setValues } = useForm(INITIAL_STATE)
+	const { handleSubmit, handleValues, values, setValues } = useForm(INITIAL_STATE, errors)
 
 	const handleFileChange = event => {
 		const file = event.target.files[0];
@@ -155,67 +155,40 @@ export default function Form() {
 
 
 
-	// const stateInstructions = instructions?.map((e, i) => ({ id: i, step: e }))
 
 
 
 
 
 
-	// const { msg, error } = useSelector((state) => state.createRecipe.msg);
-	// const { recipe } = useSelector(state => state.createRecipe)
-
-	// useEffect(() => {
-	// 	if (error) {
-	// 		setTimeout(() => {
-	// 			dispatch(createRecipeFailure(''))
-	// 		}, 5000)
-	// 		return
-	// 	} else {
-	// 		setSteps([
-	// 			{
-	// 				id: 1,
-	// 				step: "",
-	// 			},
-	// 			{
-	// 				id: 2,
-	// 				step: "",
-	// 			},
-	// 		]);
-	// 		setValues(INITIAL_STATE);
-	// 		setSelectedDiets([]);
-	// 		if (recipe?.id) {
-	// 			dispatch(updateRecipesAfterCreate(recipe))
-	// 		}
-	// 		setTimeout(() => {
-	// 			dispatch(createRecipeFailure(''))
-	// 		}, 3000)
-
-	// 	}
-	// }, [error, msg])
 
 
-	// const { values, errores, handleValues, handleSubmit, validForm, setValues } = useForm(
-	// 	INITIAL_STATE,
-	// 	steps,
-	// 	selectedDiets,
-	// 	imagex
-	// );
-
-	// useEffect(() => {
-	// 	if (id) {
-	// 		setSteps(stateIntructions)
-	// 		setSelectedDiets(Diets.map(e => e.name))
-	// 	}
-
-	// }, [id])
 
 	const handleClick = (e) => {
 		e.preventDefault()
 		// setData( { ...values, instructions: steps.map(e => e.step), diets: selectedDiets, image: inputImage })
-		handleSubmit({ ...values, instructions: steps.map(e => e.step), diets: selectedDiets, image: inputImage })
+		handleSubmit({ ...values, instructions: steps.map(e => e.step), diets: selectedDiets, image: inputImage || image },id)
 
 	}
+
+	useEffect(()=> {
+		if(!error && msg){
+			setValues(INITIAL_STATE)
+			setSteps([
+				{
+					id: 1,
+					step: "",
+				},
+				{
+					id: 2,
+					step: "",
+				},
+			])
+			setSelectedDiets([])
+			setInputImage(null)
+		}
+	},[error])
+
 	return (
 		<StyleForm>
 			<form onSubmit={handleClick}>
@@ -284,20 +257,19 @@ export default function Form() {
 						<textarea id={s.id} value={s.step} onChange={addStepState} />
 
 						<p>
-							{s.step.length >= 1 && s.step.length < 20 || s.step.length > 200 ? 'El paso debe tener entre 20 y 200 caracteres' : ''}
+							{s.step.length >= 1 && s.step.length < 20 || s.step.length > 200 ? 'Each step need between 20 and 200 characters  ' : ''}
 						</p>
 					</div>
 				))}
 
-				{/* <p>hola</p> */}
 
 				{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 				<span className="addStep" onClick={() => addStep()}>
-					Agrega Paso{" "}
+					Add Step {" "}
 				</span>
 				{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 				<span className="delStep" onClick={() => deleteStep()}>
-					Eliminar Último Paso
+					Delete Step {" "}
 				</span>
 				<input type='submit' value={id ? 'Save Changes' : 'Create Recipe'} />
 			</form>

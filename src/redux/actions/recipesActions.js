@@ -3,13 +3,11 @@ import {
 	LOAD_DATA,
 	CLEAN_MSG,
 	CLEAN_CREATE,
-	CREATE_RECIPE_FAILURE,
-	CREATE_RECIPE_SUCCESS,
-	MENSAJE_STATE_RECIPES,
 	SET_RECIPE_TO_EDIT,
 	UPDATE_DELETE,
 	UPDATE_RECIPES,
 	UPDATE_EDIT,
+	MESSAGE_STATE_RECIPES,
 } from "../types";
 
 const setRecipes = (recipes) => {
@@ -44,14 +42,14 @@ const updateRecipeAfterDelete = (id) => {
 	};
 };
 
-const setMsg = (msg) => {
+export const setMsg = (msg) => {
 	return {
-		type: MENSAJE_STATE_RECIPES,
+		type: MESSAGE_STATE_RECIPES,
 		payload: msg,
 	};
 };
 
-const cleanMsg = () => {
+export const cleanMsg = () => {
 	return {
 		type: CLEAN_MSG,
 	};
@@ -106,6 +104,10 @@ export const updateRecipe = (recipe, id) => {
 			});
 			dispatch(updateStateRecipeAfterEdit(data));
 			dispatch(setMsg({ msg: "Recipe updated", error: false }));
+			setTimeout(() => {
+				dispatch(cleanMsg());
+			}
+			, 3000);
 		} catch (error) {
 			dispatch(setMsg({ msg: error.response.data.msg, error: true }));
 		}

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loading } from "../redux/actions/loadingAction";
-import { createRecipe } from "../redux/actions/recipesActions";
+import { cleanMsg, createRecipe, setEdit, setMsg, updateRecipe } from "../redux/actions/recipesActions";
 
-const useForm = (INITIAL_STATE) => {
+const useForm = (INITIAL_STATE,errors) => {
 
 	const [values, setValues] = useState(INITIAL_STATE);
 	const dispatch = useDispatch();
@@ -16,53 +16,25 @@ const useForm = (INITIAL_STATE) => {
 		});
 	};
 
-	const handleSubmit = (data) => {
-		// e.preventDefault();
-		// window.scrollTo({ top: 0, behavior: 'smooth' });
-		// values.instructions = steps.map((s) => s.step);
-		// values.Diets = Diets;
-		// // validar longitud de los pasos
-		// const stepsLentgtValidate = values.instructions.every(
-		// 	(s) => s.length > 20 && s.length < 200,
-		// );
-		// if (!stepsLentgtValidate) {
-		// 	setErrors({
-		// 		...errors,
-		// 		["steps"]: "Los pasos deben tener entre 10 y 200 caracteres",
-		// 	});
-		// } else {
-		// 	setErrors({
-		// 		...errors,
-		// 		["steps"]: "",
-		// 	});
-		// }
+	const handleSubmit = (data, id) => {
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 
-		// if (
-		// 	Object.values(values).includes("") ||
-		// 	values.instructions.includes("") ||
-		// 	values.Diets.length === 0
-		// ) {
-		// 	dispatch(createRecipeFailure("Todos los campos son obligatorios"));
-		// 	return;
-		// }
-		// if (Object.values(errors).some((e) => e !== "")) {
-		// 	dispatch(createRecipeFailure("Verifique los datos ingresados"));
-		// 	return;
-		// }
-		// const formData = new FormData();
-		// formData.append("title", values.title);
-		// formData.append("summary", values.summary);
-		// formData.append("healthScore", values.healthScore);
-		// formData.append("Diets", values.Diets);
-		// formData.append('image', imagex || values.image)
-		// values.instructions.forEach((s) => formData.append("instructions", s));
-		// if (values.idDB) {
-		// 	// formData.append('id', values.idDB)
-		// 	dispatch(updateRecipe(formData,values.idDB))
+		if(Object.values(data).includes('') || data.image === undefined || data.diets.length === 0 || data.instructions.includes('') ){
+			dispatch(setMsg({msg: 'Please fill all the fields', error: true}))
+			setTimeout(() => {
+				dispatch(cleanMsg())
+			}, 5000)
+			return 
+		}
 
-		// } else {
-		// 	dispatch(createRecipe(formData)).then()
-		// }
+		console.log(Object.values(errors))
+		if(Object.values(errors).some( e => e !== '') || data.diets.length  === 0 || data.diets.length < 2  || data.instructions.some( e => e.length < 20 || e.length > 200)){
+			dispatch(setMsg({msg: 'Verify the fields', error: true}))
+			setTimeout(() => {
+				dispatch(cleanMsg())
+			}, 5000)
+			return 
+		}
 		const formData = new FormData();
 		formData.append("title", data.title);
 		formData.append("summary", data.summary);
@@ -71,10 +43,16 @@ const useForm = (INITIAL_STATE) => {
 			formData.append("Diets", diet)
 		});
 		data.instructions.forEach(s => {
-			formData.append("instructions", s)	
+			formData.append("instructions", s)
 		});
 		formData.append('image', data.image)
-
+		if (id) {
+			dispatch(loading(true))
+			dispatch(updateRecipe(formData, id))
+				.then(dispatch(setEdit({})))
+				.then(dispatch(loading(false)))
+			return
+		}
 
 		dispatch(loading(true))
 		dispatch(createRecipe(formData)).then(dispatch(loading(false)))
