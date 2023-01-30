@@ -12,16 +12,15 @@ import { updateRecipes } from "../redux/actions/recipesActions";
 import { cleanRecipe, createRecipeFailure } from "../redux/actions/createRecipeActions";
 
 
-
 export default function Form() {
-
+const [imagex, setImagex] = useState(null);
 	const { title, image, instructions, summary, healthScore, Diets, id } = useSelector(state => state.recipes.recipeToEdit)
 	const INITIAL_STATE = {
 		idDB: id,
 		title: title || '',
 		healthScore: healthScore || "",
 		summary: summary || "",
-		image: image || "",
+		image: image || 'a',
 	};
 
 	const state = instructions?.map((e, i) => ({ id: i, step: e }))
@@ -59,7 +58,7 @@ export default function Form() {
 		if (error) {
 			setTimeout(() => {
 				dispatch(createRecipeFailure(''))
-			}, 3000)
+			}, 5000)
 			return
 		} else {
 			setSteps([
@@ -112,6 +111,7 @@ export default function Form() {
 		INITIAL_STATE,
 		steps,
 		selectedDiets,
+		imagex
 	);
 
 	useEffect(() => {
@@ -155,9 +155,10 @@ export default function Form() {
 					type='file'
 					// autoComplete="off"
 					name='image'
-					value={values.image}
-					onChange={(e) => handleValues(e)}
+					// value={values.image}
+					onChange={(e) => setImagex(e.target.files[0])}
 				/>
+				<img src={imagex ? URL.createObjectURL(imagex) : image} alt="" />	
 
 				<MultiSelect
 					optionsLabel={optionsDiets}

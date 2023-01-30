@@ -6,7 +6,7 @@ import {
 	createRecipe,
 } from "../redux/actions/createRecipeActions";
 
-const useForm = (INITIAL_STATE, steps, Diets) => {
+const useForm = (INITIAL_STATE, steps, Diets,imagex) => {
 	const [values, setValues] = useState(INITIAL_STATE);
 	const [errores, setErrores] = useState({});
 	const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const useForm = (INITIAL_STATE, steps, Diets) => {
 		const { name, value } = e.target;
 		setValues({
 			...values,
-			[name]: [name] === 'image' ? e.target.files[0] : value,
+			[name]:  value,
 		});
 	};
 
@@ -111,17 +111,10 @@ const useForm = (INITIAL_STATE, steps, Diets) => {
 		formData.append("title", values.title);
 		formData.append("summary", values.summary);	
 		formData.append("healthScore", values.healthScore);
-		formData.append("instructions", values.instructions);
 		formData.append("Diets", values.Diets);
-		formData.append('image', values.image)
-
-
-				// mostrar el formdata en consola
-		for (var value of formData.values()) {
-			console.log(value);
-		}
-
-		dispatch(createRecipe(formData)).then();
+		formData.append('image', imagex || values.image)
+		values.instructions.forEach((s) => formData.append("instructions", s));
+		dispatch(createRecipe(formData)).then()
 	};
 
 	return {
