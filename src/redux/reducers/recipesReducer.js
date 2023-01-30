@@ -1,9 +1,17 @@
-import { LOAD_DATA, MENSAJE_STATE_RECIPES, SET_RECIPE_TO_EDIT, UPDATE_DELETE, UPDATE_EDIT, UPDATE_RECIPES } from "../types";
+import {
+	LOAD_DATA,
+	CLEAN_MSG,
+	MENSAJE_STATE_RECIPES,
+	SET_RECIPE_TO_EDIT,
+	UPDATE_DELETE,
+	UPDATE_EDIT,
+	UPDATE_RECIPES,
+} from "../types";
 
 const INITIAL_STATE = {
 	recipes: [],
-	msg: {},
-	recipeToEdit : {}
+	msg: { error: null, msg: null },
+	recipeToEdit: {},
 };
 
 export default function recipesReducer(state = INITIAL_STATE, action) {
@@ -23,11 +31,13 @@ export default function recipesReducer(state = INITIAL_STATE, action) {
 				...state,
 				recipes: state.recipes.filter((e) => e.id !== action.payload),
 			};
-		case UPDATE_EDIT: 
+		case UPDATE_EDIT:
 			return {
 				...state,
-				recipes: state.recipes.map((e) => e.id === action.payload.id ? action.payload : e)
-			}
+				recipes: state.recipes.map((e) =>
+					e.id === action.payload.id ? action.payload : e,
+				),
+			};
 		case MENSAJE_STATE_RECIPES:
 			return {
 				...state,
@@ -36,8 +46,13 @@ export default function recipesReducer(state = INITIAL_STATE, action) {
 		case SET_RECIPE_TO_EDIT:
 			return {
 				...state,
-				recipeToEdit: action.payload
-			}
+				recipeToEdit: action.payload,
+			};
+		case CLEAN_MSG:
+			return {
+				...state,
+				msg: { error: null, msg: null },
+			};
 		default:
 			return { ...state };
 	}

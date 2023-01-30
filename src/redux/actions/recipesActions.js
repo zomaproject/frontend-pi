@@ -1,11 +1,15 @@
 import clienteAxios from "../../config/clienteAxios";
 import {
 	LOAD_DATA,
+	CLEAN_MSG,
+	CLEAN_CREATE,
+	CREATE_RECIPE_FAILURE,
+	CREATE_RECIPE_SUCCESS,
 	MENSAJE_STATE_RECIPES,
 	SET_RECIPE_TO_EDIT,
 	UPDATE_DELETE,
 	UPDATE_RECIPES,
-	UPDATE_EDIT
+	UPDATE_EDIT,
 } from "../types";
 
 const setRecipes = (recipes) => {
@@ -26,7 +30,7 @@ export const dowloadData = () => {
 	};
 };
 
-export const updateRecipes = (recipe) => {
+export const updateRecipesAfterCreate = (recipe) => {
 	return {
 		type: UPDATE_RECIPES,
 		payload: recipe,
@@ -40,26 +44,16 @@ const updateRecipeAfterDelete = (id) => {
 	};
 };
 
-const deleteRecipeDB = async (id) => {
-	const { data } = await clienteAxios.delete(`/recipes/${id}`);
-	return data;
-};
-
-const setMesajeRecipes = (msg) => {
+const setMsg = (msg) => {
 	return {
 		type: MENSAJE_STATE_RECIPES,
 		payload: msg,
 	};
 };
 
-export const deleteRecipe = (id) => {
-	return async (dispatch) => {
-		try {
-			dispatch(setMesajeRecipes(await deleteRecipeDB(id)));
-			dispatch(updateRecipeAfterDelete(id));
-		} catch (e) {
-			setMesajeRecipes(e.reponse.data.msg);
-		}
+const cleanMsg = () => {
+	return {
+		type: CLEAN_MSG,
 	};
 };
 
@@ -77,8 +71,32 @@ const updateStateRecipeAfterEdit = (recipe) => {
 	};
 };
 
+//delete recipe
+const deleteRecipeDB = async (id) => {
+	const { data } = await clienteAxios.delete(`/recipes/${id}`);
+	return data;
+};
 
-export const updateRecipe = (recipe,id) => {
+export const deleteRecipe = (id) => {
+	return async (dispatch) => {
+		try {
+			const data = await deleteRecipeDB(id);
+			dispatch(updateRecipeAfterDelete(id));
+			dispatch(setMsg({ msg: data.msg, error: false }));
+			setTimeout(() => {
+				dispatch(cleanMsg());
+			}, 3000);
+		} catch (e) {
+			dispatch(setMsg(e.reponse.data.msg));
+			setTimeout(() => {
+				dispatch(cleanMsg());
+			}, 3000);
+		}
+	};
+};
+
+// update recipe
+export const updateRecipe = (recipe, id) => {
 	return async (dispatch) => {
 		try {
 			const { data } = await clienteAxios.put(`/recipes/${id}`, recipe, {
@@ -87,8 +105,39 @@ export const updateRecipe = (recipe,id) => {
 				},
 			});
 			dispatch(updateStateRecipeAfterEdit(data));
+			dispatch(setMsg({ msg: "Recipe updated", error: false }));
 		} catch (error) {
-			console.log('error',error);
+			dispatch(setMsg({ msg: error.response.data.msg, error: true }));
 		}
+	};
+};
+
+// create recipe
+export const createRecipe = (recipe) => {
+	return async (dispatch) => {
+		try {
+			const { data } = await clienteAxios.post("/recipes", recipe, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
+			dispatch(setMsg({ msg: "Recipe created", error: false }));
+			setTimeout(() => {
+				dispatch(cleanMsg());
+			}, 3000);
+			dispatch(updateRecipesAfterCreate(data));
+		} catch (e) {
+			dispatch(setMsg({ msg: e.response.data.msg, error: true }));
+			setTimeout(() => {
+				dispatch(cleanMsg());
+			}
+			, 3000);
+		}
+	};
+};
+
+export const cleanRecipe = () => {
+	return {
+		type: CLEAN_CREATE,
 	};
 };

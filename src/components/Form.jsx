@@ -6,92 +6,110 @@ import Alert from "./Alert";
 import MultiSelect from "./MultiSelect";
 import useDiets from "../hooks/useDiets";
 import { StyleForm } from "../styles/Form";
-import { generarId } from "../helpers/generarId";
 import { useEffect } from "react";
-import { updateRecipes } from "../redux/actions/recipesActions";
-import { cleanRecipe, createRecipeFailure } from "../redux/actions/createRecipeActions";
 
 
 export default function Form() {
-const [imagex, setImagex] = useState(null);
-const handleFileChange = event => {
-  const file = event.target.files[0];
-if (file && /\.(jpe?g|png)$/i.test(file.name)) {
-    setImagex(file);
-  } else {
-    setImagex(null);
-    alert("Por favor selecciona un archivo de imagen PNG o JPG");
-  }
-};
-	const { title, image, instructions, summary, healthScore, Diets, id } = useSelector(state => state.recipes.recipeToEdit)
-	const INITIAL_STATE = {
-		idDB: id,
-		title: title || '',
-		healthScore: healthScore || "",
-		summary: summary || "",
-		// image: image || '',
-	};
 
-	const state = instructions?.map((e, i) => ({ id: i, step: e }))
-
-
-	const eliminarPaso = () => {
-		if (steps.length <= 2) {
-			return alert("El mínimo de pasos es 2");
-		}
-		if (confirm("Desea Eliminar el último paso")) {
-			setSteps(steps.slice(0, -1));
-		}
-	};
-
-	const addStepState = (e) => {
-		const { id, value } = e.target;
-		const newSteps = steps.map((s) => {
-			if (s.id === parseInt(id)) {
-				return { ...s, step: value };
-			}
-			return s;
-		});
-		setSteps(newSteps);
-	};
-
-	const [selectedDiets, setSelectedDiets] = useState(
-		[]);
-
-
-	const { msg, error } = useSelector((state) => state.createRecipe.msg);
-	const { recipe } = useSelector(state => state.createRecipe)
 	const dispatch = useDispatch()
-	useEffect(() => {
-		if (error) {
-			setTimeout(() => {
-				dispatch(createRecipeFailure(''))
-			}, 5000)
-			return
-		} else {
-			setSteps([
-				{
-					id: 1,
-					step: "",
-				},
-				{
-					id: 2,
-					step: "",
-				},
-			]);
-			setValues(INITIAL_STATE);
-			setSelectedDiets([]);
-			if (recipe?.id) {
-				dispatch(updateRecipes(recipe))
-			}
-			setTimeout(() => {
-				dispatch(createRecipeFailure(''))
-			}, 3000)
+	const { msg , error} = useSelector(state => state.recipes.msg)
+	const optionsDiets = useDiets(); // load diets from state
 
+	const [selectedDiets, setSelectedDiets] = useState([]);
+
+	const [inputImage, setInputImage] = useState(null);
+
+	const [errors, setErrors] = useState({});
+
+
+	const { title, image, instructions, summary, healthScore, Diets, id } = useSelector(state => state.recipes.recipeToEdit)
+	const validate = (e) => {
+		const { name, value } = e.target;
+		switch (name) {
+			case "title":
+				if (value.length < 4 || value.length > 80) {
+					setErrors({
+						...errors,
+						[name]: "The name must have between 4 and 80 characters",
+					});
+				} else {
+					setErrors({
+						...errors,
+						[name]: "",
+					});
+				}
+				break;
+
+			case "healthScore":
+				if (value < 0 || (value > 100 && !isNaN(value))) {
+					setErrors({
+						...errors,
+						[name]: "The score must be between 0 and 100",
+					});
+				} else if (isNaN(value)) {
+					setErrors({
+						...errors,
+						[name]: "The score must be a number",
+					});
+				} else {
+					setErrors({
+						...errors,
+						[name]: "",
+					});
+				}
+				break;
+			case "summary":
+				if ((name === "summary" && value.length < 100) || value.length > 400) {
+					setErrors({
+						...errors,
+						[name]: "The summary must have between 100 and 400 characters",
+					});
+				} else {
+					setErrors({
+						...errors,
+						[name]: "",
+					});
+				}
+				break;
+			case "image":
+				if (e.target.files[0] && /\.(jpe?g|png)$/i.test(e.target.files[0].name)) {
+					setErrors({
+						...errors,
+						[name]: "",
+					});
+				} else {
+					setErrors({
+						...errors,
+						[name]: "Please select a valid image file",
+					});
+				}
+				break;
+			default:
+				break;
 		}
-	}, [error, msg])
+	}
 
-	const optionsDiets = useDiets();
+	const INITIAL_STATE = {
+		// idDB: id,
+		title: title || '',
+		healthScore:  healthScore || "",
+		summary: summary || "",
+	};
+	useEffect(()=> {
+		if(id){
+			setSelectedDiets(Diets.map(e => e.name))
+			setSteps(instructions.map((e, i) => ({ id: i, step: e })))
+		}
+	},[id])
+
+	const { handleSubmit, handleValues, values, setValues } = useForm(INITIAL_STATE)
+
+	const handleFileChange = event => {
+		const file = event.target.files[0];
+		setInputImage(file);
+	};
+
+
 
 	const [steps, setSteps] = useState(
 		[
@@ -115,25 +133,94 @@ if (file && /\.(jpe?g|png)$/i.test(file.name)) {
 		]);
 	};
 
-	const { values, errores, handleValues, handleSubmit, validForm, setValues } = useForm(
-		INITIAL_STATE,
-		steps,
-		selectedDiets,
-		imagex
-	);
-
-	useEffect(() => {
-		if (id) {
-			setSteps(state)
-			setSelectedDiets(Diets.map(e => e.name))
+	const deleteStep = () => {
+		if (steps.length <= 2) {
+			return alert("The recipe must have at least 2 steps");
 		}
+		if (confirm("Are you sure you want to delete the last step? ")) {
+			setSteps(steps.slice(0, -1));
+		}
+	};
 
-	}, [id])
+	const addStepState = (e) => {
+		const { id, value } = e.target;
+		const newSteps = steps.map((s) => {
+			if (s.id === parseInt(id)) {
+				return { ...s, step: value };
+			}
+			return s;
+		});
+		setSteps(newSteps);
+	};
+
+
+
+	// const stateInstructions = instructions?.map((e, i) => ({ id: i, step: e }))
+
+
+
+
+
+
+	// const { msg, error } = useSelector((state) => state.createRecipe.msg);
+	// const { recipe } = useSelector(state => state.createRecipe)
+
+	// useEffect(() => {
+	// 	if (error) {
+	// 		setTimeout(() => {
+	// 			dispatch(createRecipeFailure(''))
+	// 		}, 5000)
+	// 		return
+	// 	} else {
+	// 		setSteps([
+	// 			{
+	// 				id: 1,
+	// 				step: "",
+	// 			},
+	// 			{
+	// 				id: 2,
+	// 				step: "",
+	// 			},
+	// 		]);
+	// 		setValues(INITIAL_STATE);
+	// 		setSelectedDiets([]);
+	// 		if (recipe?.id) {
+	// 			dispatch(updateRecipesAfterCreate(recipe))
+	// 		}
+	// 		setTimeout(() => {
+	// 			dispatch(createRecipeFailure(''))
+	// 		}, 3000)
+
+	// 	}
+	// }, [error, msg])
+
+
+	// const { values, errores, handleValues, handleSubmit, validForm, setValues } = useForm(
+	// 	INITIAL_STATE,
+	// 	steps,
+	// 	selectedDiets,
+	// 	imagex
+	// );
+
+	// useEffect(() => {
+	// 	if (id) {
+	// 		setSteps(stateIntructions)
+	// 		setSelectedDiets(Diets.map(e => e.name))
+	// 	}
+
+	// }, [id])
+
+	const handleClick = (e) => {
+		e.preventDefault()
+		// setData( { ...values, instructions: steps.map(e => e.step), diets: selectedDiets, image: inputImage })
+		handleSubmit({ ...values, instructions: steps.map(e => e.step), diets: selectedDiets, image: inputImage })
+
+	}
 	return (
 		<StyleForm>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleClick}>
 				{msg && <Alert error={error}>{msg}</Alert>}
-				<label htmlFor="title">Nombre de la receta</label>
+				<label htmlFor="title">Name</label>
 				<input
 					type="text"
 					id="title"
@@ -142,10 +229,10 @@ if (file && /\.(jpe?g|png)$/i.test(file.name)) {
 					autoComplete='off'
 					onChange={(e) => {
 						handleValues(e);
-						validForm(e);
+						validate(e);
 					}}
 				/>
-				{errores.title && <p>{errores.title}</p>}
+				{errors.title && <p>{errors.title}</p>}
 				<label htmlFor="healthScore">HealthScore</label>
 				<input
 					type="text"
@@ -154,20 +241,22 @@ if (file && /\.(jpe?g|png)$/i.test(file.name)) {
 					value={values.healthScore}
 					onChange={(e) => {
 						handleValues(e);
-						validForm(e);
+						validate(e);
 					}}
 				/>
-				{errores.healthScore && <p>{errores.healthScore}</p>}
+				{errors.healthScore && <p>{errors.healthScore}</p>}
+
 				<label htmlFor="image">Image</label>
 				<input
 					type='file'
 					// autoComplete="off"
-					
+
 					name='image'
 					// value={values.image}
-					onChange={handleFileChange}
+					onChange={(e) => { handleFileChange(e); validate(e) }}
 				/>
-				<img src={imagex ? URL.createObjectURL(imagex) : image} alt="" />	
+				{errors.image && <p>{errors.image}</p>}
+				<img src={inputImage ? URL.createObjectURL(inputImage) : image} alt="" />
 
 				<MultiSelect
 					optionsLabel={optionsDiets}
@@ -175,9 +264,7 @@ if (file && /\.(jpe?g|png)$/i.test(file.name)) {
 					setOptions={setSelectedDiets}
 				/>
 
-				{selectedDiets.length === 0 && (
-					<p>Debe seleccionar al menos una dieta</p>
-				)}
+				{selectedDiets.length >= 1 && selectedDiets.length < 2 ? <p> Select at least 2 diets  </p> : null}
 
 				<label htmlFor="summary">Summary</label>
 
@@ -186,11 +273,12 @@ if (file && /\.(jpe?g|png)$/i.test(file.name)) {
 					value={values.summary}
 					onChange={(e) => {
 						handleValues(e);
-						validForm(e);
+						validate(e);
 					}}
 				/>
-				{errores.summary && <p>{errores.summary}</p>}
-				<label htmlFor="stepByStep">Instruccions</label>
+				{errors.summary && <p>{errors.summary}</p>}
+
+				<label htmlFor="stepByStep">Instructions</label>
 				{steps.map((s) => (
 					<div key={s.id}>
 						<textarea id={s.id} value={s.step} onChange={addStepState} />
@@ -208,10 +296,10 @@ if (file && /\.(jpe?g|png)$/i.test(file.name)) {
 					Agrega Paso{" "}
 				</span>
 				{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-				<span className="delStep" onClick={() => eliminarPaso()}>
+				<span className="delStep" onClick={() => deleteStep()}>
 					Eliminar Último Paso
 				</span>
-				<input type='submit' value={id ? 'Guardar Cambios' : 'Guardar receta'} />
+				<input type='submit' value={id ? 'Save Changes' : 'Create Recipe'} />
 			</form>
 		</StyleForm>
 	);

@@ -6,7 +6,6 @@ import CarsRecipe from "../components/CarsRecipe";
 import FiltersBar from "../components/FiltersBar";
 import Pagination from "../components/Pagination";
 import useReduxStates from "../hooks/useReduxStates";
-import { cleanRecipe } from "../redux/actions/createRecipeActions";
 import { loadFilterDiets } from "../redux/actions/filterPerDiets";
 import {
 	cleanOrden,
@@ -31,10 +30,10 @@ export default function Home() {
 		stateOrder,
 	} = useReduxStates();
 
-	const { recipe }  = useSelector(state => state.createRecipe)
-	useEffect(()=> {
-		dispatch(cleanRecipe())
-	},[recipe?.id])
+	// const { recipe }  = useSelector(state => state.createRecipe)
+	// useEffect(()=> {
+	// 	dispatch(cleanRecipe())
+	// },[recipe?.id])
 
 	const toRender = searchRecipes.length  ? searchRecipes : allRecipes;
 

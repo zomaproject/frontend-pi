@@ -48,3 +48,9 @@ export  const CREATE_RECIPE_SUCCESS = 'CREATE_RECIPE_SUCCESS';
 export const CREATE_RECIPE_FAILURE = 'CREATE_RECIPE_FAILURE';
 
 export const CLEAN_CREATE = 'CLEAN_CREATE'
+
+
+
+/// Reducer recipes
+
+export const CLEAN_MSG = 'CLEAN_MSG';
