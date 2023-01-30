@@ -5,8 +5,9 @@ import {
 	createRecipeFailure,
 	createRecipe,
 } from "../redux/actions/createRecipeActions";
+import { updateRecipe } from "../redux/actions/recipesActions";
 
-const useForm = (INITIAL_STATE, steps, Diets,imagex) => {
+const useForm = (INITIAL_STATE, steps, Diets, imagex) => {
 	const [values, setValues] = useState(INITIAL_STATE);
 	const [errores, setErrores] = useState({});
 	const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const useForm = (INITIAL_STATE, steps, Diets,imagex) => {
 		const { name, value } = e.target;
 		setValues({
 			...values,
-			[name]:  value,
+			[name]: value,
 		});
 	};
 
@@ -72,9 +73,9 @@ const useForm = (INITIAL_STATE, steps, Diets,imagex) => {
 				break;
 		}
 	};
-	const { msg } = useSelector((state) => state.createRecipe);
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 		values.instructions = steps.map((s) => s.step);
 		values.Diets = Diets;
 		// validar longitud de los pasos
@@ -82,7 +83,6 @@ const useForm = (INITIAL_STATE, steps, Diets,imagex) => {
 			(s) => s.length > 20 && s.length < 200,
 		);
 		if (!stepsLentgtValidate) {
-			console.log()
 			setErrores({
 				...errores,
 				["steps"]: "Los pasos deben tener entre 10 y 200 caracteres",
@@ -104,17 +104,22 @@ const useForm = (INITIAL_STATE, steps, Diets,imagex) => {
 		}
 		if (Object.values(errores).some((e) => e !== "")) {
 			dispatch(createRecipeFailure("Verifique los datos ingresados"));
-			console.log(Object.values(errores))
 			return;
 		}
 		const formData = new FormData();
 		formData.append("title", values.title);
-		formData.append("summary", values.summary);	
+		formData.append("summary", values.summary);
 		formData.append("healthScore", values.healthScore);
 		formData.append("Diets", values.Diets);
 		formData.append('image', imagex || values.image)
 		values.instructions.forEach((s) => formData.append("instructions", s));
-		dispatch(createRecipe(formData)).then()
+		if (values.idDB) {
+			// formData.append('id', values.idDB)
+			dispatch(updateRecipe(formData,values.idDB))
+
+		} else {
+			dispatch(createRecipe(formData)).then()
+		}
 	};
 
 	return {

@@ -1,4 +1,4 @@
-import { LOAD_DATA, MENSAJE_STATE_RECIPES, SET_RECIPE_TO_EDIT, UPDATE_DELETE, UPDATE_RECIPES } from "../types";
+import { LOAD_DATA, MENSAJE_STATE_RECIPES, SET_RECIPE_TO_EDIT, UPDATE_DELETE, UPDATE_EDIT, UPDATE_RECIPES } from "../types";
 
 const INITIAL_STATE = {
 	recipes: [],
@@ -23,6 +23,11 @@ export default function recipesReducer(state = INITIAL_STATE, action) {
 				...state,
 				recipes: state.recipes.filter((e) => e.id !== action.payload),
 			};
+		case UPDATE_EDIT: 
+			return {
+				...state,
+				recipes: state.recipes.map((e) => e.id === action.payload.id ? action.payload : e)
+			}
 		case MENSAJE_STATE_RECIPES:
 			return {
 				...state,

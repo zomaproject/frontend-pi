@@ -14,13 +14,22 @@ import { cleanRecipe, createRecipeFailure } from "../redux/actions/createRecipeA
 
 export default function Form() {
 const [imagex, setImagex] = useState(null);
+const handleFileChange = event => {
+  const file = event.target.files[0];
+if (file && /\.(jpe?g|png)$/i.test(file.name)) {
+    setImagex(file);
+  } else {
+    setImagex(null);
+    alert("Por favor selecciona un archivo de imagen PNG o JPG");
+  }
+};
 	const { title, image, instructions, summary, healthScore, Diets, id } = useSelector(state => state.recipes.recipeToEdit)
 	const INITIAL_STATE = {
 		idDB: id,
 		title: title || '',
 		healthScore: healthScore || "",
 		summary: summary || "",
-		image: image || 'a',
+		// image: image || '',
 	};
 
 	const state = instructions?.map((e, i) => ({ id: i, step: e }))
@@ -48,7 +57,6 @@ const [imagex, setImagex] = useState(null);
 
 	const [selectedDiets, setSelectedDiets] = useState(
 		[]);
-	// Llamar el hook
 
 
 	const { msg, error } = useSelector((state) => state.createRecipe.msg);
@@ -154,9 +162,10 @@ const [imagex, setImagex] = useState(null);
 				<input
 					type='file'
 					// autoComplete="off"
+					
 					name='image'
 					// value={values.image}
-					onChange={(e) => setImagex(e.target.files[0])}
+					onChange={handleFileChange}
 				/>
 				<img src={imagex ? URL.createObjectURL(imagex) : image} alt="" />	
 

@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
-import { ButtonTheme } from '../styles/ButtonToggleTheme'
 import { Footer } from '../styles/footer'
 
 import { Nav, NavBg } from '../styles/Nav'
@@ -39,10 +38,6 @@ export default function Layout({ handleTema }) {
               </NavLink>
             </nav>
 
-            <ButtonTheme onClick={handleTema}>
-              {/* rome-ignore lint/style/useSelfClosingElements: <explanation> */}
-              <div class="toggle toggle-dark"></div>
-            </ButtonTheme>
           </Nav>
         </NavBg>
       </header>
