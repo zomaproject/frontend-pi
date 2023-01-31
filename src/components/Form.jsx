@@ -7,12 +7,13 @@ import MultiSelect from "./MultiSelect";
 import useDiets from "../hooks/useDiets";
 import { StyleForm } from "../styles/Form";
 import { useEffect } from "react";
+import { useRef } from "react";
 
 
 export default function Form() {
 
 	const dispatch = useDispatch()
-	const { msg , error} = useSelector(state => state.recipes.msg)
+	const { msg, error } = useSelector(state => state.recipes.msg)
 	const optionsDiets = useDiets(); // load diets from state
 
 	const [selectedDiets, setSelectedDiets] = useState([]);
@@ -88,19 +89,19 @@ export default function Form() {
 				break;
 		}
 	}
-
+	const fileInputRef = React.useRef(null);
 	const INITIAL_STATE = {
 		// idDB: id,
 		title: title || '',
-		healthScore:  healthScore || "",
+		healthScore: healthScore || "",
 		summary: summary || "",
 	};
-	useEffect(()=> {
-		if(id){
+	useEffect(() => {
+		if (id) {
 			setSelectedDiets(Diets.map(e => e.name))
 			setSteps(instructions.map((e, i) => ({ id: i, step: e })))
 		}
-	},[id])
+	}, [id])
 
 	const { handleSubmit, handleValues, values, setValues } = useForm(INITIAL_STATE, errors)
 
@@ -167,12 +168,12 @@ export default function Form() {
 	const handleClick = (e) => {
 		e.preventDefault()
 		// setData( { ...values, instructions: steps.map(e => e.step), diets: selectedDiets, image: inputImage })
-		handleSubmit({ ...values, instructions: steps.map(e => e.step), diets: selectedDiets, image: inputImage || image },id)
+		handleSubmit({ ...values, instructions: steps.map(e => e.step), diets: selectedDiets, image: inputImage || image }, id)
 
 	}
 
-	useEffect(()=> {
-		if(!error && msg){
+	useEffect(() => {
+		if (!error && msg) {
 			setValues(INITIAL_STATE)
 			setSteps([
 				{
@@ -186,8 +187,9 @@ export default function Form() {
 			])
 			setSelectedDiets([])
 			setInputImage(null)
+			fileInputRef.current.value = null;
 		}
-	},[error])
+	}, [error])
 
 	return (
 		<StyleForm>
@@ -199,6 +201,7 @@ export default function Form() {
 					id="title"
 					name="title"
 					value={values.title}
+					placeholder="Name"
 					autoComplete='off'
 					onChange={(e) => {
 						handleValues(e);
@@ -210,7 +213,9 @@ export default function Form() {
 				<input
 					type="text"
 					autoComplete='off'
+					id="healthScore"
 					name='healthScore'
+					placeholder="HealthScore"
 					value={values.healthScore}
 					onChange={(e) => {
 						handleValues(e);
@@ -223,7 +228,9 @@ export default function Form() {
 				<input
 					type='file'
 					// autoComplete="off"
-
+					// placeholder="Image"
+					ref={fileInputRef}
+					id="image"
 					name='image'
 					// value={values.image}
 					onChange={(e) => { handleFileChange(e); validate(e) }}
@@ -243,6 +250,7 @@ export default function Form() {
 
 				<textarea
 					name='summary'
+					id="summary"
 					value={values.summary}
 					onChange={(e) => {
 						handleValues(e);
@@ -251,7 +259,7 @@ export default function Form() {
 				/>
 				{errors.summary && <p>{errors.summary}</p>}
 
-				<label htmlFor="stepByStep">Instructions</label>
+				<label >Instructions</label>
 				{steps.map((s) => (
 					<div key={s.id}>
 						<textarea id={s.id} value={s.step} onChange={addStepState} />

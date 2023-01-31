@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { StyledOrden } from "../styles/Orden";
 
-const Orden = ({ setOrden }) => {
+const Orden = ({ orden, setOrden }) => {
 	const [check, setCheck] = useState({
 		"A-Z": false,
 		"Z-A": false,
@@ -38,7 +38,7 @@ const Orden = ({ setOrden }) => {
 			<span className="icon-orden" onClick={() => setShow(!show)}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="orden">
 				<path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25" />
 			</svg>
-				Orden
+				Orden <span className="order-state"> {orden} </span>
 			</span>
 			<div className={`${show ? "show" : "hiden"} options`}>
 				<div>

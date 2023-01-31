@@ -4,7 +4,8 @@ import { Outlet } from 'react-router-dom'
 import { Footer } from '../styles/footer'
 
 import { Nav, NavBg } from '../styles/Nav'
-export default function Layout({ handleTema }) {
+import { ToggleTheme } from '../styles/Toggle'
+export default function Layout({ handleTema, temaActual }) {
   const loading = useSelector(state => state.loading.loading)
   return (
     <div className='layout'>
@@ -38,8 +39,8 @@ export default function Layout({ handleTema }) {
               </NavLink>
             </nav>
 
-            <div>
-              <input type="checkbox" className="checkbox" id="checkbox" onChange={handleTema}/>
+            <ToggleTheme>
+              <input type="checkbox" className="checkbox" id="checkbox" checked={temaActual === 'light'} onChange={handleTema}/>
               <label htmlFor="checkbox" className="label">
                 {/* rome-ignore lint/style/useSelfClosingElements: <explanation> */}
                 <i className="fas fa-moon"></i>
@@ -48,11 +49,13 @@ export default function Layout({ handleTema }) {
                 {/* rome-ignore lint/style/useSelfClosingElements: <explanation> */}
                 <div className="ball"></div>
               </label>
-            </div>
+            </ToggleTheme>
           </Nav>
         </NavBg>
       </header>
+
       <Outlet />
+
       {loading ? '' :
 
         <Footer>

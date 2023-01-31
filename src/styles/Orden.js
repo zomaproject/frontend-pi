@@ -46,4 +46,8 @@ export const StyledOrden = styled.div`
 	svg:hover{
 		stroke: ${({ theme }) => theme.hoverEnlace};
 	}
+
+  & .order-state {
+    color:  green;
+  }
 `;

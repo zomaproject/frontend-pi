@@ -51,4 +51,47 @@ margin-top: 100rem;
 .steps {
 	justify-content: flex-start;
 }
+img {
+  margin-top: 10rem;
+}
+.absolute {
+  position: absolute;
+  bottom: 10%;
+  left:  80%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.delete-btn {
+  /* background-color: blue; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+button  {
+  font-weight: 900;
+}
+.edit {
+  /* background-color: green; */
+  width: 3rem;
+  height: 3rem;
+}
+.edit-btn {
+  background-color: green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edit-btn:hover {
+  background-color: darkgreen;
+}
+
+details {
+  margin-top: 2rem;
+  cursor: pointer;
+  min-height: 50rem;
+  font-weight: 900;
+  margin-left: 1rem;
+}
 `;

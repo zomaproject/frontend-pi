@@ -11,7 +11,7 @@ export  const loadDetail = (id) => {
         const { data }  = await clienteAxios(`/recipes/${id}`)
         dispatch(getDetails(data))
       } catch (error) {
-        console.log(error.response.data.message)
+        console.log(error.response.data.msg)
       }
     }
 }

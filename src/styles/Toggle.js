@@ -1,3 +1,6 @@
+import styled from "styled-components";
+
+export const ToggleTheme = styled.div`
 .label{
   background-color: #263238;
   width: 50px;
@@ -37,4 +40,4 @@
 .fa-moon{
   color: #bdbdbd;
 }
-
+`

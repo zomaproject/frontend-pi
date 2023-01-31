@@ -27,11 +27,15 @@ export default function FiltersBar({
 		e.preventDefault();
 		if (!search) return;
 		dispatch(loading(true));
+		setOrden('')
+		setSelectedDiets([])
 		dispatch(searchRecipeAction(search)).then(() => dispatch(loading(false)));
 	};
 
 	const clear = () => {
 		setSearch("");
+		setOrden('')
+		setSelectedDiets([])
 		dispatch(clearSearch());
 	};
 
@@ -60,7 +64,7 @@ export default function FiltersBar({
 					</form>
 				</div>
 							<div>
-								<Orden setOrden={setOrden}/>	
+								<Orden orden={orden } setOrden={setOrden}/>	
 							</div>
 			</div>
 		</>

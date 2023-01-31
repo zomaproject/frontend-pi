@@ -17,5 +17,4 @@ export const Footer = styled.footer`
   & a:hover {
     opacity: 0.5;
   }
-
 `;
