@@ -40,6 +40,7 @@ export default function FiltersBar({
 	};
 
 	const optionsDiets = useDiets()
+	
 	return (
 		<>
 			<div className={styles.flex}>
@@ -51,7 +52,7 @@ export default function FiltersBar({
 					<form onSubmit={handleSubmit}>
 						<input
 							type="text"
-							placeholder="Search..."
+							placeholder="Search...  Ctrl-K"
 							value={search}
 							onChange={handleChange}
 						/>

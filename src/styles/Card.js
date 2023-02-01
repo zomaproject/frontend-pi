@@ -10,6 +10,8 @@ export const Card = styled(Link)`
   img {
     width: 100%;
     border-radius: 5px 5px 0 0;
+    flex-grow: 3;
+    height: auto;
   }
   .card {
     /* Add shadows to create the "card" effect */
@@ -21,11 +23,19 @@ export const Card = styled(Link)`
     display: flex;
     flex-direction: column;
   }
-  .card__item {
+  .card__item1 {
     flex-grow: 1;
+  }
+  .card__item2 {
+    flex-grow: 2;
+  }
+  .card__item3 {
+    flex-grow: 1;
+    margin: 0;
   }
   h4{
     line-height: 1.7rem;
+    text-transform: capitalize;
   }
   h5{
     margin: 0;

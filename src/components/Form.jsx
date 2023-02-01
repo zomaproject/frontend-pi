@@ -8,6 +8,7 @@ import useDiets from "../hooks/useDiets";
 import { StyleForm } from "../styles/Form";
 import { useEffect } from "react";
 import { useRef } from "react";
+import styles from '../styles/Loading2.module.css'
 
 
 export default function Form() {
@@ -174,7 +175,11 @@ export default function Form() {
 
 	useEffect(() => {
 		if (!error && msg) {
-			setValues(INITIAL_STATE)
+			setValues({
+				title: "",
+				healthScore: "",
+				summary: "",
+			})
 			setSteps([
 				{
 					id: 1,
@@ -189,11 +194,16 @@ export default function Form() {
 			setInputImage(null)
 			fileInputRef.current.value = null;
 		}
-	}, [error])
-
+	}, [error, msg])
+	const loading = useSelector(state => state.loading.loading)
 	return (
+
 		<StyleForm>
+
+			{/* rome-ignore lint/style/useSelfClosingElements: <explanation> */}
+			{loading && <div className={styles['lds-ripple']}><div></div><div></div></div>}
 			<form onSubmit={handleClick}>
+
 				{msg && <Alert error={error}>{msg}</Alert>}
 				<label htmlFor="title">Name</label>
 				<input

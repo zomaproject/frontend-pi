@@ -27,7 +27,6 @@ const useForm = (INITIAL_STATE,errors) => {
 			return 
 		}
 
-		console.log(Object.values(errors))
 		if(Object.values(errors).some( e => e !== '') || data.diets.length  === 0 || data.diets.length < 2  || data.instructions.some( e => e.length < 20 || e.length > 200)){
 			dispatch(setMsg({msg: 'Verify the fields', error: true}))
 			setTimeout(() => {
@@ -46,16 +45,17 @@ const useForm = (INITIAL_STATE,errors) => {
 			formData.append("instructions", s)
 		});
 		formData.append('image', data.image)
+		console.log(formData.get('Diets'))
 		if (id) {
 			dispatch(loading(true))
 			dispatch(updateRecipe(formData, id))
-				.then(dispatch(setEdit({})))
-				.then(dispatch(loading(false)))
+				.then(()=>dispatch(setEdit({})))
+				.then(()=>dispatch(loading(false)))
 			return
 		}
 
 		dispatch(loading(true))
-		dispatch(createRecipe(formData)).then(dispatch(loading(false)))
+		dispatch(createRecipe(formData)).then(()=>dispatch(loading(false)))
 	};
 
 

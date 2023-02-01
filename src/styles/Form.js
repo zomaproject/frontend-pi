@@ -62,5 +62,9 @@ input[type=submit]{
     background-color: #3b48cc;
     cursor: pointer;
   }
+
+}
+label:nth-child(1) {
+	margin-top: 5rem;
 }
 `;

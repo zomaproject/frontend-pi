@@ -7,8 +7,8 @@ export default function CardRecipe({ recipe }) {
       <div className='card'>
         <img src={image} alt='Avatar' />
         {/* <div className='container'> */}
-        <h4 className='card__item'>{title}</h4>
-        <div className='card__item'>
+        <h4 className='card__item1'>{title}</h4>
+        <div className='card__item2'>
           <h5>Diets</h5>
           <div className='flex'>
             {Diets?.map((type) => (
@@ -16,7 +16,7 @@ export default function CardRecipe({ recipe }) {
             ))}
           </div>
         </div>
-        <h4 className='card__item'>Health Score: {healthScore}</h4>
+        <h4 className='card__item3'>Health Score: {healthScore}</h4>
         {/* </div> */}
       </div>
     </Card>

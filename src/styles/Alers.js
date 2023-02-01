@@ -19,3 +19,7 @@ export const StyleAlert = styled.div`
   border-color: #c3e6cb
   }
 `;
+
+export const Container  = styled.div`
+   height: 90vh;
+  `

@@ -1,9 +1,9 @@
-import { StyleAlert } from "../styles/Alers";
+import { Container, StyleAlert } from "../styles/Alers";
 
 export default function Alert({ error, children }) {
 	return (
-		<StyleAlert  className={error ? 'error' : 'success'}>
-			{children}
-		</StyleAlert>
+			<StyleAlert className={error ? 'error' : 'success'}>
+				{children}
+			</StyleAlert>
 	);
 }

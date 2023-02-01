@@ -97,6 +97,7 @@ export default function Home() {
 		recipesOrden.length,
 		recipesFiltered.length,
 		searchRecipes.length,
+		recipesOrden[0]?.id
 	]);
 
 
@@ -114,6 +115,7 @@ export default function Home() {
 		orden,
 		recipesFiltered.length,
 		searchRecipes.length,
+		recipesOrden[0]?.id
 	]);
 
 const { pagesTotal} = useSelector(state => state.pagination)
@@ -138,8 +140,8 @@ const { pagesTotal} = useSelector(state => state.pagination)
 					<CarsRecipe recipes={recipesRender} />
 				)}
 			</div>
-
-			<Pagination />
+			{!alertSearch.error && <Pagination />  }
+			
 		</>
 	);
 }
