@@ -17,10 +17,14 @@ export const Card = styled(Link)`
     transition: 0.3s;
     border-radius: 5px;
     width: 30rem;
-    height: 40rem;
+    height: 45rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .card__item {
+    flex-grow: 1;
   }
   h4{
-    margin: 0;
     line-height: 1.7rem;
   }
   h5{
@@ -75,4 +79,5 @@ export const Grid = styled.main`
   /* padding-top: 2rem; */
   /* border-radius: 1rem; */
   min-height: 100vh;
+
 `

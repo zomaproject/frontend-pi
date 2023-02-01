@@ -1,5 +1,3 @@
-
-
 import page404 from '../../src/pageError.svg'
 export default function ErorPage()  {
   
