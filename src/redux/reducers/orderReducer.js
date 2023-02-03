@@ -16,7 +16,7 @@ export default function orderReducer(state = INITIAL_STATE, action) {
 			if (state.typeOrden === "A-Z") {
 				return {
 					...state,
-					recipesOrder: action.payload.sort((a, b) => {
+					recipesOrder: [...action.payload].sort((a, b) => {
 						if (a.title > b.title) {
 							return 1;
 						}
@@ -30,7 +30,7 @@ export default function orderReducer(state = INITIAL_STATE, action) {
 			if (state.typeOrden === "Z-A") {
 				return {
 					...state,
-					recipesOrder: action.payload.sort((a, b) => {
+					recipesOrder: [...action.payload].sort((a, b) => {
 						if (a.title < b.title) {
 							return 1;
 						}
@@ -44,7 +44,7 @@ export default function orderReducer(state = INITIAL_STATE, action) {
 			if (state.typeOrden === "asc") {
 				return {
 					...state,
-					recipesOrder: action.payload.sort((a, b) => {
+					recipesOrder: [...action.payload].sort((a, b) => {
 						if (a.healthScore > b.healthScore) {
 							return 1;
 						}
@@ -58,7 +58,7 @@ export default function orderReducer(state = INITIAL_STATE, action) {
 			if (state.typeOrden === "des") {
 				return {
 					...state,
-					recipesOrder: action.payload.sort((a, b) => {
+					recipesOrder: [...action.payload].sort((a, b) => {
 						if (a.healthScore < b.healthScore) {
 							return 1;
 						}

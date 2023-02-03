@@ -16,7 +16,7 @@ export default function CardRecipe({ recipe }) {
             ))}
           </div>
         </div>
-        <h4 className='card__item3'>Health Score: {healthScore}</h4>
+        <h4  className='card__item3'>Health Score: {healthScore}</h4>
         {/* </div> */}
       </div>
     </Card>

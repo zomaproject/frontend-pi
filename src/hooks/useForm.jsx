@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { loading } from "../redux/actions/loadingAction";
 import { cleanMsg, createRecipe, setEdit, setMsg, updateRecipe } from "../redux/actions/recipesActions";
@@ -7,7 +8,7 @@ const useForm = (INITIAL_STATE,errors) => {
 
 	const [values, setValues] = useState(INITIAL_STATE);
 	const dispatch = useDispatch();
-
+	const navigate =  useNavigate()
 	const handleValues = (e) => {
 		const { name, value } = e.target;
 		setValues({
@@ -51,11 +52,13 @@ const useForm = (INITIAL_STATE,errors) => {
 			dispatch(updateRecipe(formData, id))
 				.then(()=>dispatch(setEdit({})))
 				.then(()=>dispatch(loading(false)))
+		navigate('/home')
 			return
 		}
 
 		dispatch(loading(true))
 		dispatch(createRecipe(formData)).then(()=>dispatch(loading(false)))
+		navigate('/home')
 	};
 
 

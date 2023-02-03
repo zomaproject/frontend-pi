@@ -7,6 +7,8 @@ import styles from "../styles/Filter.module.css";
 import MultiSelect from "./MultiSelect";
 import useDiets from "../hooks/useDiets";
 import Orden from "./Orden";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 export default function FiltersBar({
 	orden,
@@ -22,7 +24,6 @@ export default function FiltersBar({
 			dispatch(clearSearch());
 		}
 	};
-
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (!search) return;
@@ -33,26 +34,26 @@ export default function FiltersBar({
 	};
 
 	const clear = () => {
-		setSearch("");
+		setSearch('');
 		setOrden('')
 		setSelectedDiets([])
 		dispatch(clearSearch());
 	};
 
 	const optionsDiets = useDiets()
-	
+
 	return (
 		<>
 			<div className={styles.flex}>
 				<div>
-						<MultiSelect  optionsLabel={optionsDiets} options = {selectedDiets} setOptions={setSelectedDiets} />
+					<MultiSelect optionsLabel={optionsDiets} options={selectedDiets} setOptions={setSelectedDiets} />
 				</div>
 
 				<div>
 					<form onSubmit={handleSubmit}>
 						<input
 							type="text"
-							placeholder="Search...  Ctrl-K"
+							placeholder="Search...  "
 							value={search}
 							onChange={handleChange}
 						/>
@@ -64,9 +65,9 @@ export default function FiltersBar({
 						<button type="submit">Search</button>
 					</form>
 				</div>
-							<div>
-								<Orden orden={orden } setOrden={setOrden}/>	
-							</div>
+				<div>
+					<Orden orden={orden} setOrden={setOrden} />
+				</div>
 			</div>
 		</>
 	);
